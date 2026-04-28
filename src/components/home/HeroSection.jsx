@@ -67,11 +67,15 @@ export default function HeroSection() {
           {/* Hero Visuals */}
           <div className="relative h-[600px] hidden lg:block">
             {/* Generate Image Prompt: Aesthetic minimal clothing rack with diverse organized clothes, sage green and earthy tones. */}
-            <div className="absolute top-0 right-0 w-[85%] h-[85%] rounded-[2rem] overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800 z-10 bg-white dark:bg-surface">
-              <div className="w-full h-full bg-gray-50/50 dark:bg-white/5 flex items-center justify-center">
-                 {/* Fallback pattern if no image */}
-                 <FaRecycle size={120} className="text-gray-200 dark:text-gray-700/50" />
-                 <p className="absolute text-gray-400 dark:text-gray-500 uppercase tracking-widest font-bold text-sm">Amerta Environment</p>
+            <div className="absolute top-0 right-0 w-[85%] h-[85%] rounded-[2rem] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800 z-10 bg-black relative">
+              <img 
+                src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80" 
+                alt="Baju bekas didaur ulang" 
+                className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-1000 hover:scale-105" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-6 left-6 right-6">
+                 <p className="text-white/90 uppercase tracking-widest font-bold text-sm bg-black/30 backdrop-blur-md px-4 py-2 rounded-lg inline-block border border-white/10">Amerta Environment</p>
               </div>
             </div>
 

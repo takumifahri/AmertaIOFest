@@ -6,7 +6,9 @@ export const metadata = {
   description: "Masuk ke akun Amerta Anda.",
 };
 
-export default function LoginPage() {
+export default function LoginPage({ searchParams }) {
+  const verified = searchParams?.verified === "true";
+
   return (
     <div className="min-h-screen flex bg-background">
       {/* Left Column - Form */}
@@ -28,6 +30,12 @@ export default function LoginPage() {
             <h1 className="text-3xl font-extrabold text-amerta-dark mb-2 tracking-tight">Selamat Datang Kembali</h1>
             <p className="text-gray-500 text-sm">Lanjutkan kontribusi Anda untuk bumi hari ini.</p>
           </div>
+
+          {verified && (
+            <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl text-sm border border-green-200">
+              Akun Anda berhasil diverifikasi. Silakan masuk.
+            </div>
+          )}
 
           <div className="mt-8">
             <form className="space-y-5" action="#" method="POST">
@@ -112,13 +120,13 @@ export default function LoginPage() {
       </div>
       
       {/* Right Column - Visual */}
-      <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-amerta-dark">
-        <div className="absolute inset-0 bg-gradient-to-br from-amerta-green/40 to-amerta-dark z-10" />
-        
-        {/* Abstract shapes representing circular economy */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border-[40px] border-white/5 rounded-full z-0" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-[30px] border-white/5 rounded-full z-0" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border-[20px] border-white/5 rounded-full z-0" />
+      <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
+        <img 
+          src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80" 
+          alt="Recycle Clothes Background" 
+          className="absolute inset-0 w-full h-full object-cover opacity-60" 
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/80 z-10" />
         
         <div className="relative z-20 h-full flex flex-col justify-center items-start p-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/20 text-white text-sm font-medium mb-8">
