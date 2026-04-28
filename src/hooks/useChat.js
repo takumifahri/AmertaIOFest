@@ -51,10 +51,18 @@ export const useChat = (token, roomId) => {
       console.error(`[Chat] Socket error:`, error);
     };
 
+    const onMessageRead = (data) => {
+      console.log(`[Chat] Message marked as read:`, data.messageId);
+      setMessages((prev) => 
+        prev.map(msg => msg.id === data.messageId ? { ...msg, isRead: true } : msg)
+      );
+    };
+
     socket.on('room_history', onHistory);
     socket.on('new_message', onNewMessage);
     socket.on('user_typing', onUserTyping);
     socket.on('user_stopped_typing', onUserStoppedTyping);
+    socket.on('message_read', onMessageRead);
     socket.on('error', onError);
 
     return () => {
@@ -63,6 +71,7 @@ export const useChat = (token, roomId) => {
       socket.off('new_message', onNewMessage);
       socket.off('user_typing', onUserTyping);
       socket.off('user_stopped_typing', onUserStoppedTyping);
+      socket.off('message_read', onMessageRead);
       socket.off('error', onError);
     };
   }, [socket, roomId, isConnected, scrollToBottom]);
@@ -80,6 +89,12 @@ export const useChat = (token, roomId) => {
     }
   }, [socket, isConnected, roomId]);
 
+  const markAsRead = useCallback((messageId) => {
+    if (socket && isConnected) {
+      socket.emit('mark_as_read', { roomId, messageId });
+    }
+  }, [socket, isConnected, roomId]);
+
   const sendTyping = useCallback((typing) => {
     if (socket && isConnected) {
       socket.emit(typing ? 'typing' : 'stop_typing', { roomId });
@@ -89,6 +104,7 @@ export const useChat = (token, roomId) => {
   return {
     messages,
     sendMessage,
+    markAsRead,
     sendTyping,
     isTyping,
     isConnected,

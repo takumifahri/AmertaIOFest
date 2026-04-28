@@ -1,108 +1,116 @@
+"use client";
+
 import Link from "next/link";
-import { FaArrowRight, FaLeaf, FaRecycle, FaMapPin } from "react-icons/fa";
+import { FaArrowRight, FaLeaf, FaRecycle, FaMapPin, FaStar } from "react-icons/fa";
 import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-background dark:bg-background pt-20 pb-32">
-      {/* Abstract Background Design */}
+    <section className="relative overflow-hidden bg-background pt-24 pb-40 transition-colors duration-500">
+      {/* Dynamic Background Elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-[30%] -right-[10%] w-[70%] h-[70%] rounded-full bg-amerta-light-green/20 dark:bg-amerta-light-green/5 blur-3xl" />
-        <div className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-amerta-green/10 dark:bg-amerta-green/5 blur-3xl" />
+        <div className="absolute -top-[10%] -right-[5%] w-[600px] h-[600px] rounded-full bg-amerta-green/10 dark:bg-amerta-green/10 blur-[150px] animate-pulse" />
+        <div className="absolute top-[40%] -left-[5%] w-[500px] h-[500px] rounded-full bg-amerta-accent/10 dark:bg-amerta-accent/5 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Main Copy */}
-          <div className="animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-white/10 border border-gray-200 dark:border-gray-800 text-sm font-medium text-amerta-green mb-6 shadow-sm">
-              <FaLeaf size={16} />
-              <span>Circular Economy untuk Pakaian Anda</span>
+          <div className="lg:col-span-6 animate-fade-in-up">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[9px] font-black uppercase tracking-[3px] text-primary mb-8 shadow-sm">
+              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span>Next Gen Circular Hub</span>
             </div>
             
-            <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-amerta-dark mb-6 leading-[1.1]">
+            <h1 className="text-6xl lg:text-8xl font-black tracking-tighter text-foreground mb-8 leading-[0.95]">
               Berikan{" "}
-              <span className="text-amerta-green dark:text-amerta-light-green">
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary to-primary-light italic">
                 Kehidupan Kedua
               </span>{" "}
-              Untuk Pakaianmu.
+              Pakaianmu.
             </h1>
             
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-xl leading-relaxed">
-              Amerta mengubah limbah tekstil menjadi nilai guna. Jual, donasikan, atau daur ulang pakaian lama Anda secara transparan dengan AI Quality Gatekeeper dan dapatkan <strong>Amarta Point</strong> di setiap helainya.
+            <p className="text-lg text-gray-500 dark:text-gray-400 mb-10 max-w-lg leading-relaxed font-medium">
+              Amerta mengubah limbah tekstil menjadi nilai guna tinggi. Transparansi penuh dengan <span className="text-primary font-bold">AI Quality Gatekeeper</span> untuk setiap helai pakaian yang kamu sirkulasikan.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+            <div className="flex flex-col sm:flex-row gap-5 mb-14">
               <Link
                 href="/register"
-                className="inline-flex justify-center items-center gap-2 bg-amerta-green hover:bg-opacity-90 text-white px-8 py-4 rounded-full text-lg font-medium transition-all shadow-xl shadow-amerta-green/20 hover:shadow-amerta-green/40 hover:-translate-y-1"
+                className="group relative inline-flex justify-center items-center gap-3 bg-primary text-white dark:text-black px-10 py-5 rounded-2xl text-[12px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 overflow-hidden shadow-xl shadow-primary/20"
               >
-                Mulai Berdonasi <FaArrowRight size={20} />
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <span className="relative z-10">Mulai Berdonasi</span> <FaArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/how-it-works"
-                className="inline-flex justify-center items-center gap-2 bg-white dark:bg-[#262E26] hover:bg-gray-50 dark:hover:bg-[#343F34] text-amerta-dark dark:text-amerta-sand border border-gray-200 dark:border-gray-700 px-8 py-4 rounded-full text-lg font-medium transition-all"
+                className="inline-flex justify-center items-center gap-3 bg-white dark:bg-white/5 text-foreground border border-gray-200 dark:border-white/10 px-10 py-5 rounded-2xl text-[12px] font-black uppercase tracking-widest transition-all hover:bg-gray-50 dark:hover:bg-white/10 active:scale-95"
               >
                 Pelajari Caranya
               </Link>
             </div>
             
             {/* Social Proof / Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex gap-12 items-center pt-10 border-t border-gray-200 dark:border-white/5">
               <div>
-                <p className="text-3xl font-bold text-amerta-dark">5K+</p>
-                <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Pengguna</p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">5K+</p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Users</p>
               </div>
+              <div className="w-px h-10 bg-gray-200 dark:bg-white/10" />
               <div>
-                <p className="text-3xl font-bold text-amerta-dark">12<span className="text-xl">Ton</span></p>
-                <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Terselamatkan</p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">12<span className="text-xl">t</span></p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Saved</p>
               </div>
+              <div className="w-px h-10 bg-gray-200 dark:bg-white/10" />
               <div>
-                <p className="text-3xl font-bold text-amerta-dark">40+</p>
-                <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">Mitra Yayasan</p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">40+</p>
+                <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Partners</p>
               </div>
             </div>
           </div>
 
           {/* Hero Visuals */}
-          <div className="relative h-[600px] hidden lg:block">
-            {/* Generate Image Prompt: Aesthetic minimal clothing rack with diverse organized clothes, sage green and earthy tones. */}
-            <div className="absolute top-0 right-0 w-[85%] h-[85%] rounded-[2rem] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800 z-10 bg-black relative">
-              <img 
-                src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80" 
-                alt="Baju bekas didaur ulang" 
-                className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-1000 hover:scale-105" 
+          <div className="lg:col-span-6 relative h-[700px] flex items-center justify-center">
+            {/* Main Image Container */}
+            <div className="relative w-[85%] h-[85%] rounded-[60px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.1)] z-10 border border-white/50 dark:border-white/10 group">
+              <Image 
+                src="/images/hero-amerta.png" 
+                alt="Amerta Circular Fashion" 
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-[2s] group-hover:scale-110" 
+                priority
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-6 left-6 right-6">
-                 <p className="text-white/90 uppercase tracking-widest font-bold text-sm bg-black/30 backdrop-blur-md px-4 py-2 rounded-lg inline-block border border-white/10">Amerta Environment</p>
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
 
-            {/* Floating Cards for Features */}
-            <div className="absolute bottom-16 left-0 bg-white dark:bg-surface p-5 rounded-2xl shadow-xl z-20 border border-gray-100 dark:border-gray-800 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-amerta-green/10 text-amerta-green dark:text-amerta-light-green rounded-lg">
-                  <FaMapPin size={24} />
+            {/* Hyper-Premium Floating Cards */}
+            <div className="absolute -bottom-4 -left-4 bg-white/90 dark:bg-surface/90 backdrop-blur-2xl p-6 rounded-[32px] shadow-2xl z-20 border border-white/50 dark:border-white/10 animate-float">
+              <div className="flex items-center gap-5">
+                <div className="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                  <FaMapPin size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-amerta-dark">12 Titik Drop-off</p>
-                  <p className="text-xs text-gray-500">Terdeteksi di dekat Anda</p>
+                  <p className="text-[11px] font-black text-foreground uppercase tracking-wider">12 Titik Drop-off</p>
+                  <p className="text-[9px] font-medium text-gray-400">Terdeteksi di dekat Anda</p>
                 </div>
               </div>
             </div>
 
-            <div className="absolute top-24 -left-8 bg-white dark:bg-surface p-5 rounded-2xl shadow-xl z-20 border border-gray-100 dark:border-gray-800 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-amerta-accent/10 text-amerta-accent rounded-lg">
-                  <FaRecycle size={24} />
+            <div className="absolute top-10 -right-4 bg-white/90 dark:bg-surface/90 backdrop-blur-2xl p-6 rounded-[32px] shadow-2xl z-20 border border-white/50 dark:border-white/10 animate-float-slow">
+              <div className="flex items-center gap-5">
+                <div className="w-12 h-12 bg-accent text-white rounded-xl flex items-center justify-center shadow-lg shadow-accent/20">
+                  <FaRecycle size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-amerta-dark">+450 Point</p>
-                  <p className="text-xs text-gray-500">2.5kg Pakaian Bersih</p>
+                  <p className="text-[11px] font-black text-foreground uppercase tracking-wider">+450 Point</p>
+                  <p className="text-[9px] font-medium text-gray-400">2.5kg Pakaian Bersih</p>
                 </div>
               </div>
             </div>
+
+            {/* Decorative Background Blob */}
+            <div className="absolute -z-10 w-full h-full bg-primary/5 rounded-full blur-[100px] scale-150" />
           </div>
         </div>
       </div>

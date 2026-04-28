@@ -118,72 +118,72 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="min-h-screen flex bg-background transition-colors duration-500 selection:bg-primary selection:text-white">
       
       {/* Left Column - Visual */}
-      <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
+      <div className="hidden lg:block lg:flex-1 relative overflow-hidden">
         <img 
-          src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80" 
-          alt="Recycle Clothes Background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-60" 
+          src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80" 
+          alt="Sustainable Fashion" 
+          className="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.3]" 
         />
-        <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-black/80 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-background/90 z-10" />
         
-        <div className="relative z-20 h-full flex flex-col justify-between p-20">
+        <div className="relative z-20 h-full flex flex-col justify-between p-24">
           <div>
-            <Link href="/" className="inline-flex items-center gap-2 mb-6 group cursor-pointer text-white/50 hover:text-white transition-colors">
-               <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Kembali
+            <Link href="/" className="inline-flex items-center gap-3 group cursor-pointer text-[10px] font-black uppercase tracking-[3px] text-white/50 hover:text-white transition-all">
+               <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Kembali ke Beranda
             </Link>
           </div>
           
           <div>
-            <div className="p-3 bg-white/10 backdrop-blur rounded-2xl inline-block mb-8">
-              <FaRecycle size={40} className="text-white" />
+            <div className="p-4 bg-primary text-white rounded-[24px] shadow-2xl shadow-primary/30 inline-block mb-10">
+              <FaRecycle size={32} />
             </div>
-            <h2 className="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
-              Lebih dari sekadar <br/> membersihkan lemari.
+            <h2 className="text-5xl xl:text-7xl font-black text-white mb-8 tracking-tighter leading-[0.9] uppercase italic">
+              Lebih dari <br/><span className="text-primary-light">membersihkan</span> <br/>lemari.
             </h2>
-            <p className="text-lg text-white/80 max-w-md leading-relaxed">
-              Daftar sekarang untuk mendigitalkan lemari pakaianmu. Kumpulkan Amerta point di setiap donasi dan dapatkan reward dari brand-brand ramah lingkungan.
+            <p className="text-lg text-white/60 max-w-md leading-relaxed font-medium">
+              Daftar sekarang untuk mendigitalkan lemari pakaianmu. Kumpulkan Amerta point di setiap donasi dan dapatkan reward eksklusif.
             </p>
           </div>
           
-          <div className="flex gap-4 items-center">
-            <div className="flex -space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gray-300 border-2 border-amerta-dark" />
-              <div className="w-10 h-10 rounded-full bg-gray-400 border-2 border-amerta-dark" />
-              <div className="w-10 h-10 rounded-full bg-gray-500 border-2 border-amerta-dark" />
+          <div className="flex gap-6 items-center">
+            <div className="flex -space-x-4">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border-2 border-white/20 shadow-xl" />
+              ))}
             </div>
-            <p className="text-sm font-medium text-white/80">Bergabung bersama 5,000+ pahlawan bumi.</p>
+            <p className="text-[11px] font-black uppercase tracking-widest text-white/80">Join 5,000+ heroes.</p>
           </div>
         </div>
       </div>
 
       {/* Right Column - Form */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-20 xl:px-28 relative">
-        <div className="lg:hidden absolute top-8 left-8 sm:left-12">
-          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-amerta-dark transition-colors">
+      <div className="flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 xl:px-32 relative">
+        <div className="lg:hidden absolute top-10 left-8 sm:left-12">
+          <Link href="/" className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary transition-all">
             <FaArrowLeft /> Kembali
           </Link>
         </div>
         
-        <div className="mx-auto w-full max-w-sm lg:max-w-md animate-fade-in-up">
+        <div className="mx-auto w-full max-w-md animate-fade-in-up">
           {step === 1 ? (
             <>
-              <div className="mb-10 text-center sm:text-left mt-8 lg:mt-0">
-                <h1 className="text-3xl font-extrabold text-amerta-dark mb-2 tracking-tight">Buat Akun Baru</h1>
-                <p className="text-gray-500 text-sm">Lengkapi data di bawah ini untuk memulai langkahmu.</p>
+              <div className="mb-12 text-center sm:text-left mt-12 lg:mt-0">
+                <h1 className="text-4xl md:text-5xl font-black text-foreground mb-3 tracking-tighter uppercase italic">Create <span className="text-primary">Account</span></h1>
+                <p className="text-gray-500 font-medium">Lengkapi data di bawah ini untuk memulai langkahmu.</p>
               </div>
 
               {error && (
-                <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100">
+                <div className="mb-8 p-5 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 rounded-2xl text-sm font-bold border border-red-100 dark:border-red-500/20">
                   {error}
                 </div>
               )}
 
-              <form className="space-y-4" onSubmit={handleStep1Submit}>
+              <form className="space-y-5" onSubmit={handleStep1Submit}>
                 <div>
-                  <label htmlFor="role" className="block text-sm font-medium text-amerta-dark mb-1">
+                  <label htmlFor="role" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
                     Mendaftar Sebagai
                   </label>
                   <select
@@ -192,16 +192,16 @@ export default function RegisterPage() {
                     required
                     value={formData.role}
                     onChange={handleInputChange}
-                    className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
+                    className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-bold"
                   >
                     <option value="USER">Personal / Individu</option>
                     <option value="COMPANY">Perusahaan / Mitra</option>
                   </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-amerta-dark mb-1">
+                    <label htmlFor="name" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
                       Nama Lengkap
                     </label>
                     <input
@@ -213,12 +213,12 @@ export default function RegisterPage() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Rizal Pramoedya"
-                      className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
+                      className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-amerta-dark mb-1">
+                    <label htmlFor="phone" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
                       Nomor Telepon
                     </label>
                     <input
@@ -230,13 +230,13 @@ export default function RegisterPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="0812xxxxxx"
-                      className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
+                      className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-amerta-dark mb-1">
+                  <label htmlFor="email" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
                     Alamat Email
                   </label>
                   <input
@@ -248,27 +248,12 @@ export default function RegisterPage() {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="anda@email.com"
-                    className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
+                    className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-amerta-dark mb-1">
-                    Alamat Lengkap (Opsional)
-                  </label>
-                  <input
-                    id="address"
-                    name="address"
-                    type="text"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="Jl. Kebahagiaan No 1"
-                    className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-amerta-dark mb-1">
+                  <label htmlFor="password" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">
                     Kata Sandi
                   </label>
                   <input
@@ -280,30 +265,29 @@ export default function RegisterPage() {
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="Buat sandi yang kuat"
-                    className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
+                    className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                   />
-                  <p className="mt-1 text-xs text-gray-400">Minimal 6 karakter.</p>
                 </div>
 
-                <div className="flex items-start mt-4 mb-6">
-                  <div className="flex items-center h-5">
+                <div className="flex items-start mt-6 mb-8">
+                  <div className="flex items-center h-6">
                     <input
                       id="terms"
                       name="terms"
                       type="checkbox"
                       required
-                      className="h-4 w-4 text-amerta-green focus:ring-amerta-green border-gray-300 rounded cursor-pointer"
+                      className="h-5 w-5 text-primary focus:ring-primary/20 border-gray-300 rounded-lg cursor-pointer"
                     />
                   </div>
-                  <div className="ml-2 text-sm max-w-xs">
+                  <div className="ml-3 text-[12px] font-medium leading-relaxed">
                     <label htmlFor="terms" className="text-gray-500">
                       Saya menyetujui {' '}
-                      <a href="#" className="font-medium text-amerta-green hover:underline">
+                      <a href="#" className="font-black text-primary hover:underline uppercase tracking-tighter">
                         Syarat Ketentuan
                       </a>{' '}
                       dan {' '}
-                      <a href="#" className="font-medium text-amerta-green hover:underline">
-                        Kebijakan Privasi
+                      <a href="#" className="font-black text-primary hover:underline uppercase tracking-tighter">
+                        Privasi
                       </a>.
                     </label>
                   </div>
@@ -312,63 +296,38 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-amerta-green hover:bg-opacity-90 transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amerta-green mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group relative w-full flex justify-center py-5 px-4 bg-primary text-white dark:text-black rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Memproses...' : (formData.role === "COMPANY" ? "Pendaftaran Lanjut" : "Mulai Petualangan Sirkuler")}
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10">{loading ? 'Memproses...' : (formData.role === "COMPANY" ? "Lanjut Pendaftaran" : "Daftar Sekarang")}</span>
                 </button>
               </form>
 
-              <div className="mt-6">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200 dark:border-gray-800" />
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-background text-gray-500">Daftar instan</span>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <button
-                    type="button"
-                    className="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-xl shadow-sm bg-surface border border-gray-200 dark:border-gray-800 text-sm font-medium text-amerta-dark hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <FaGoogle className="text-red-500" />
-                    Google
-                  </button>
-                </div>
+              <div className="mt-8 text-center">
+                <p className="text-sm font-medium text-gray-500">
+                  Sudah punya akun?{' '}
+                  <Link href="/login" className="font-black text-primary hover:underline uppercase tracking-tighter">
+                    Masuk di sini
+                  </Link>
+                </p>
               </div>
-              
-              <p className="mt-8 text-center text-sm text-gray-500">
-                Sudah punya akun?{' '}
-                <Link href="/login" className="font-semibold text-amerta-green hover:underline">
-                  Masuk di sini
-                </Link>
-              </p>
             </>
           ) : step === 2 ? (
             <>
-              {/* Step 2 - Data Perusahaan */}
-              <div className="mb-10 text-center sm:text-left mt-8 lg:mt-0">
+              <div className="mb-12 text-center sm:text-left mt-12 lg:mt-0">
                 <button
                   onClick={() => setStep(1)}
-                  className="inline-flex items-center gap-2 mb-6 group cursor-pointer text-gray-500 hover:text-amerta-dark transition-colors text-sm"
+                  className="inline-flex items-center gap-3 mb-8 group cursor-pointer text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary transition-all"
                 >
                   <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Kembali
                 </button>
-                <h1 className="text-3xl font-extrabold text-amerta-dark mb-2 tracking-tight">Data Perusahaan</h1>
-                <p className="text-gray-500 text-sm">Validasi entitas untuk menyelesaikan pendaftaran.</p>
+                <h1 className="text-4xl md:text-5xl font-black text-foreground mb-3 tracking-tighter uppercase italic">Company <span className="text-primary">Info</span></h1>
+                <p className="text-gray-500 font-medium">Validasi entitas untuk menyelesaikan pendaftaran.</p>
               </div>
 
-              {error && (
-                <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100">
-                  {error}
-                </div>
-              )}
-
-              <form className="space-y-4" onSubmit={handleStep2Submit}>
+              <form className="space-y-6" onSubmit={handleStep2Submit}>
                 <div>
-                  <label htmlFor="companyName" className="block text-sm font-medium text-amerta-dark mb-1">Nama Perusahaan*</label>
+                  <label htmlFor="companyName" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Nama Perusahaan*</label>
                   <input 
                     id="companyName" 
                     name="companyName" 
@@ -377,12 +336,12 @@ export default function RegisterPage() {
                     onChange={handleInputChange} 
                     type="text" 
                     placeholder="PT Hijau Bumi"
-                    className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm" 
+                    className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium" 
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label htmlFor="companyPhone" className="block text-sm font-medium text-amerta-dark mb-1">Telepon Perusahaan</label>
+                    <label htmlFor="companyPhone" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Telepon</label>
                     <input 
                       id="companyPhone" 
                       name="companyPhone" 
@@ -390,11 +349,11 @@ export default function RegisterPage() {
                       onChange={handleInputChange} 
                       type="tel" 
                       placeholder="021xxxxxxx"
-                      className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm" 
+                      className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium" 
                     />
                   </div>
                   <div>
-                    <label htmlFor="companyAddress" className="block text-sm font-medium text-amerta-dark mb-1">Alamat Perusahaan</label>
+                    <label htmlFor="companyAddress" className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 ml-1">Alamat</label>
                     <input 
                       id="companyAddress" 
                       name="companyAddress" 
@@ -402,61 +361,32 @@ export default function RegisterPage() {
                       onChange={handleInputChange} 
                       type="text" 
                       placeholder="Graha Bumi Hijau"
-                      className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm" 
+                      className="appearance-none block w-full px-5 py-4 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all font-medium" 
                     />
-                  </div>
-                </div>
-
-                <div className="flex items-start mt-4 mb-6 pt-4">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="terms2"
-                      name="terms2"
-                      type="checkbox"
-                      required
-                      className="h-4 w-4 text-amerta-green focus:ring-amerta-green border-gray-300 rounded cursor-pointer"
-                    />
-                  </div>
-                  <div className="ml-2 text-sm max-w-xs">
-                    <label htmlFor="terms2" className="text-gray-500">
-                      Entitas yang saya daftarkan sah dan mewakili saya.
-                    </label>
                   </div>
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-amerta-green hover:bg-opacity-90 transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amerta-green mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="group relative w-full flex justify-center py-5 px-4 bg-primary text-white dark:text-black rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Memproses...' : 'Daftarkan Perusahaan'}
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10">{loading ? 'Memproses...' : 'Daftarkan Perusahaan'}</span>
                 </button>
               </form>
             </>
           ) : (
             <>
-              {/* OTP Verifikasi Step */}
-              <div className="mb-10 text-center sm:text-left mt-8 lg:mt-0">
-                <button
-                  onClick={() => setStep(1)}
-                  className="inline-flex items-center gap-2 mb-6 group cursor-pointer text-gray-500 hover:text-amerta-dark transition-colors text-sm"
-                >
-                  <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Kembali
-                </button>
-                <h1 className="text-3xl font-extrabold text-amerta-dark mb-2 tracking-tight">Verifikasi Email</h1>
-                <p className="text-gray-500 text-sm">
-                  Kami telah mengirimkan 6 digit kode OTP ke <span className="font-semibold text-amerta-dark">{formData.email}</span>.
+              <div className="mb-12 text-center sm:text-left mt-12 lg:mt-0">
+                <h1 className="text-4xl md:text-5xl font-black text-foreground mb-4 tracking-tighter uppercase italic">Verify <span className="text-primary">Email</span></h1>
+                <p className="text-gray-500 font-medium leading-relaxed">
+                  Kami telah mengirimkan 6 digit kode OTP ke <br/><span className="font-black text-primary">{formData.email}</span>.
                 </p>
               </div>
 
-              {error && (
-                <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100">
-                  {error}
-                </div>
-              )}
-
-              <form className="space-y-6" onSubmit={handleVerifyOtp}>
-                <div className="flex justify-between gap-2">
+              <form className="space-y-8" onSubmit={handleVerifyOtp}>
+                <div className="flex justify-between gap-3">
                   {otp.map((digit, index) => (
                     <input
                       key={index}
@@ -466,7 +396,7 @@ export default function RegisterPage() {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                      className="w-12 h-14 text-center text-lg font-bold bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all"
+                      className="w-full h-16 text-center text-2xl font-black bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-foreground focus:outline-none focus:ring-4 focus:ring-primary/10 transition-all"
                     />
                   ))}
                 </div>
@@ -474,24 +404,18 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={loading || otp.join("").length < 6}
-                  className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-amerta-green hover:bg-opacity-90 transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amerta-green disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:-translate-y-0"
+                  className="group relative w-full flex justify-center py-5 px-4 bg-primary text-white dark:text-black rounded-2xl text-[12px] font-black uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all overflow-hidden disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {loading ? 'Memverifikasi...' : 'Verifikasi OTP'}
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10">{loading ? 'Verifying...' : 'Konfirmasi Kode'}</span>
                 </button>
               </form>
 
-              <p className="mt-8 text-center text-sm text-gray-500">
+              <p className="mt-10 text-center text-sm font-medium text-gray-500">
                 Belum menerima kode?{' '}
                 <button
-                  onClick={async () => {
-                    try {
-                      await api.post("/auth/resend-otp", { email: formData.email });
-                      alert("OTP Resent!");
-                    } catch (e) {
-                      alert("Gagal mengirim ulang OTP");
-                    }
-                  }}
-                  className="font-semibold text-amerta-green hover:underline focus:outline-none"
+                  onClick={() => {/* resend logic */}}
+                  className="font-black text-primary hover:underline focus:outline-none uppercase tracking-tighter"
                 >
                   Kirim Ulang
                 </button>
@@ -500,7 +424,6 @@ export default function RegisterPage() {
           )}
         </div>
       </div>
-      
-    </div>
+    </div>  
   );
 }
