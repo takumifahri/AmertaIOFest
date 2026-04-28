@@ -1,13 +1,49 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaRecycle, FaGoogle, FaArrowLeft } from "react-icons/fa";
+import toast from "react-hot-toast";
+import api from "@/lib/axios";
 
-export const metadata = {
-  title: "Masuk | Amerta",
-  description: "Masuk ke akun Amerta Anda.",
-};
+export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const verified = searchParams.get("verified") === "true";
 
-export default function LoginPage({ searchParams }) {
-  const verified = searchParams?.verified === "true";
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  useEffect(() => {
+    if (verified) {
+      toast.success("Akun Anda berhasil diverifikasi. Silakan masuk.", {
+        duration: 5000,
+      });
+    }
+  }, [verified]);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await api.post("/auth/login", formData);
+      toast.success("Berhasil masuk!");
+      router.push("/dashboard");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Kredensial tidak valid atau salah.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex bg-background">
@@ -16,7 +52,7 @@ export default function LoginPage({ searchParams }) {
         <Link href="/" className="absolute top-8 left-8 sm:left-12 flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-amerta-dark transition-colors">
           <FaArrowLeft /> Kembali ke Beranda
         </Link>
-        
+
         <div className="mx-auto w-full max-w-sm lg:max-w-md animate-fade-in-up">
           <div className="mb-10 text-center sm:text-left">
             <Link href="/" className="inline-flex items-center gap-2 mb-6">
@@ -31,14 +67,8 @@ export default function LoginPage({ searchParams }) {
             <p className="text-gray-500 text-sm">Lanjutkan kontribusi Anda untuk bumi hari ini.</p>
           </div>
 
-          {verified && (
-            <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl text-sm border border-green-200">
-              Akun Anda berhasil diverifikasi. Silakan masuk.
-            </div>
-          )}
-
           <div className="mt-8">
-            <form className="space-y-5" action="#" method="POST">
+            <form className="space-y-5" onSubmit={handleLogin}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-amerta-dark mb-1">
                   Alamat Email
@@ -49,6 +79,8 @@ export default function LoginPage({ searchParams }) {
                   type="email"
                   autoComplete="email"
                   required
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="anda@email.com"
                   className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
                 />
@@ -69,6 +101,8 @@ export default function LoginPage({ searchParams }) {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={formData.password}
+                  onChange={handleInputChange}
                   placeholder="••••••••"
                   className="appearance-none block w-full px-4 py-3 bg-surface border border-gray-200 dark:border-gray-800 rounded-xl text-amerta-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amerta-green focus:border-transparent transition-all sm:text-sm"
                 />
@@ -82,9 +116,10 @@ export default function LoginPage({ searchParams }) {
 
               <button
                 type="submit"
-                className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-amerta-green hover:bg-opacity-90 transition-all hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amerta-green"
+                disabled={loading}
+                className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-amerta-green hover:bg-opacity-90 transition-all hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amerta-green disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Masuk ke Akun
+                {loading ? 'Memproses...' : 'Masuk ke Akun'}
               </button>
             </form>
 
@@ -108,7 +143,7 @@ export default function LoginPage({ searchParams }) {
                 </button>
               </div>
             </div>
-            
+
             <p className="mt-10 text-center text-sm text-gray-500">
               Belum punya akun?{' '}
               <Link href="/register" className="font-semibold text-amerta-green hover:underline">
@@ -118,16 +153,16 @@ export default function LoginPage({ searchParams }) {
           </div>
         </div>
       </div>
-      
+
       {/* Right Column - Visual */}
       <div className="hidden lg:block lg:flex-1 relative overflow-hidden bg-black">
-        <img 
-          src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80" 
-          alt="Recycle Clothes Background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-60" 
+        <img
+          src="https://plus.unsplash.com/premium_photo-1683072005067-455d56d323b4?auto=format&fit=crop&q=80"
+          alt="Recycle Clothes Background"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/80 z-10" />
-        
+
         <div className="relative z-20 h-full flex flex-col justify-center items-start p-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur border border-white/20 text-white text-sm font-medium mb-8">
             <FaRecycle /> Kehidupan Kedua
@@ -138,7 +173,7 @@ export default function LoginPage({ searchParams }) {
           <p className="text-lg text-white/80 max-w-md leading-relaxed">
             Menjadi bagian dari Amerta berarti kamu ikut menurunkan emisi karbon industri tekstil. Yuk jadikan aksi kecil ini berdampak besar.
           </p>
-          
+
           {/* Mock testimonial / stat */}
           <div className="mt-16 bg-white/10 backdrop-blur border border-white/20 p-6 rounded-2xl max-w-sm">
             <div className="flex items-center gap-4 mb-4">

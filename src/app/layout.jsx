@@ -16,6 +16,8 @@ export const metadata = {
   description: "Platform digital tata kelola limbah tekstil terintegrasi berbasis Circular Economy. Beri kehidupan kedua pada setiap helai pakaian melalui AI Quality Gatekeeper dan Hyper-Local Circle Hub.",
 };
 
+import ToasterProvider from "@/components/ToasterProvider";
+
 export default function RootLayout({ children }) {
   return (
     <html
@@ -23,6 +25,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <ToasterProvider />
         {children}
       </body>
     </html>
