@@ -2,21 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation"; // hapus useSearchParams
 import { FaRecycle, FaGoogle, FaArrowLeft } from "react-icons/fa";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const verified = searchParams.get("verified") === "true";
 
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setVerified(params.get("verified") === "true");
+  }, []);
 
   useEffect(() => {
     if (verified) {
