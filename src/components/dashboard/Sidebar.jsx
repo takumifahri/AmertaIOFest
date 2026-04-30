@@ -87,7 +87,7 @@ export default function DashboardSidebar() {
           <div className="flex items-center justify-between mb-10">
             <Link href="/" className="flex items-center gap-2 overflow-hidden">
               <div className="w-10 h-10 bg-white dark:bg-white/5 rounded-xl flex items-center justify-center p-1 shrink-0 border border-gray-100 dark:border-white/10 shadow-sm">
-                <img src="/images/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
               </div>
               {!isCollapsed && (
                 <span className="font-bold text-2xl tracking-tighter text-foreground uppercase italic">Amerta</span>
