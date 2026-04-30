@@ -179,16 +179,6 @@ export default function LoginPage() {
             Menjadi bagian dari Amerta berarti kamu ikut menurunkan emisi karbon industri tekstil secara kolektif.
           </p>
 
-          {/* Stats Card */}
-          <div className="mt-16 bg-white/5 backdrop-blur-2xl border border-white/10 p-8 rounded-[32px] max-w-sm">
-            <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center font-black text-xl shadow-lg shadow-primary/40">40+</div>
-              <div>
-                <p className="text-white font-black uppercase tracking-widest text-xs">Mitra Terpercaya</p>
-                <p className="text-white/50 text-[11px] font-medium mt-1 uppercase tracking-tight">Yayasan & Daur Ulang Tekstil</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

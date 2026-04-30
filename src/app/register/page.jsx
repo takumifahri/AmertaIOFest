@@ -148,14 +148,7 @@ export default function RegisterPage() {
             </p>
           </div>
           
-          <div className="flex gap-6 items-center">
-            <div className="flex -space-x-4">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-xl border-2 border-white/20 shadow-xl" />
-              ))}
-            </div>
-            <p className="text-[11px] font-black uppercase tracking-widest text-white/80">Join 5,000+ heroes.</p>
-          </div>
+         
         </div>
       </div>
 
