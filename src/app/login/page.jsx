@@ -60,8 +60,8 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-md animate-fade-in-up">
           <div className="mb-12 text-center sm:text-left">
             <Link href="/" className="inline-flex items-center gap-3 mb-8">
-              <div className="p-3 bg-primary text-white rounded-2xl shadow-lg shadow-primary/20">
-                <FaRecycle size={28} />
+              <div className="w-12 h-12 bg-white dark:bg-white/5 rounded-2xl flex items-center justify-center p-2 shadow-lg shadow-primary/10 border border-gray-100 dark:border-white/10">
+                <img src="/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
               </div>
               <span className="font-black text-4xl tracking-tighter text-foreground uppercase italic">
                 Amerta

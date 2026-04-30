@@ -137,8 +137,8 @@ export default function RegisterPage() {
           </div>
           
           <div>
-            <div className="p-4 bg-primary text-white rounded-[24px] shadow-2xl shadow-primary/30 inline-block mb-10">
-              <FaRecycle size={32} />
+            <div className="w-16 h-16 bg-white dark:bg-white/5 rounded-[24px] flex items-center justify-center p-3 shadow-2xl shadow-primary/20 border border-white/20 mb-10">
+              <img src="/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
             </div>
             <h2 className="text-5xl xl:text-7xl font-black text-white mb-8 tracking-tighter leading-[0.9] uppercase italic">
               Lebih dari <br/><span className="text-primary-light">membersihkan</span> <br/>lemari.
