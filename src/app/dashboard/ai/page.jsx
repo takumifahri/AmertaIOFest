@@ -143,7 +143,7 @@ export default function AIKuratorPage() {
           <div className="p-2 bg-amerta-green/10 rounded-lg">
             <FaRobot className="text-amerta-green" />
           </div>
-          AI Kurator <span className="text-xs font-medium bg-amerta-green/10 text-amerta-green px-2 py-1 rounded-full uppercase tracking-wider">Powered by NilaCare</span>
+          AI Kurator <span className="text-xs font-medium bg-amerta-green/10 text-amerta-green px-2 py-1 rounded-full uppercase tracking-wider">Powered by Amerta Engine</span>
         </h1>
         <p className="text-gray-500 mt-2 max-w-2xl">
           Sistem automasi penilaian kualitas pakaian menggunakan Computer Vision. 
@@ -268,7 +268,7 @@ export default function AIKuratorPage() {
               </div>
               <h3 className="text-2xl font-black text-amerta-dark mb-3">Menganalisis Serat...</h3>
               <p className="text-gray-400 text-center text-sm leading-relaxed max-w-xs">
-                NilaCare Engine sedang membandingkan pola tekstur dengan database sirkular kami.
+                Amerta Engine sedang membandingkan pola tekstur dengan database sirkular kami.
               </p>
             </div>
           ) : result ? (
