@@ -1,16 +1,22 @@
-'use client';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FaComment, FaShare, FaEllipsisH, FaUserCircle } from 'react-icons/fa';
-import api from '@/lib/axios';
 import toast from 'react-hot-toast';
-
+import { getImageUrl } from '@/lib/imageUrl';
+import { formatRelativeDate } from '@/lib/dateUtils';
+import {
+  FaUserCircle, FaComment, FaShare, FaLeaf, FaMapMarkerAlt
+} from 'react-icons/fa';
+import api from '@/lib/axios';
 export default function CommunityPost({ post, currentUser }) {
+  const router = useRouter();
   const [comment, setComment] = useState('');
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState(post.comments || []);
 
+
   const handleAddComment = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!currentUser) {
       toast.error('Silakan login terlebih dahulu untuk memberikan komentar');
       return;
@@ -46,7 +52,10 @@ export default function CommunityPost({ post, currentUser }) {
   };
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-[32px] border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-500">
+    <div 
+      onClick={() => router.push(`/komunitas/${post.id}`)}
+      className="bg-white/5 backdrop-blur-sm rounded-[32px] border border-white/10 overflow-hidden hover:border-white/20 transition-all duration-500 group cursor-pointer relative"
+    >
       <div className="p-6 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
@@ -56,7 +65,7 @@ export default function CommunityPost({ post, currentUser }) {
             <div>
               <h4 className="font-bold text-white text-base mb-0.5">{post.author.name}</h4>
               <p className="text-[11px] text-gray-500 font-medium uppercase tracking-wider">
-                {new Date(post.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                {formatRelativeDate(post.createdAt)}
               </p>
             </div>
           </div>
@@ -65,7 +74,8 @@ export default function CommunityPost({ post, currentUser }) {
           </span>
         </div>
 
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-4 leading-tight group-hover:text-amerta-green transition-colors">{post.title}</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-4 leading-tight group-hover:text-primary transition-colors">{post.title}</h3>
+
         <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6 whitespace-pre-wrap font-medium">
           {post.content}
         </p>
@@ -75,8 +85,8 @@ export default function CommunityPost({ post, currentUser }) {
             {post.images.map((img, idx) => (
               <div key={img.id} className={`relative overflow-hidden bg-white/5 ${post.images.length === 3 && idx === 0 ? 'row-span-2 h-full' : 'h-48'}`}>
                 <img 
-                  src={img.url} 
-                  alt={post.title} 
+                  src={getImageUrl(img.url)} 
+                  alt={post.title}
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" 
                 />
               </div>
@@ -84,8 +94,18 @@ export default function CommunityPost({ post, currentUser }) {
           </div>
         )}
 
+        {post.address && (
+          <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
+            <p className="text-[10px] font-bold uppercase text-gray-500 mb-1">📍 Lokasi</p>
+            <p className="text-sm text-gray-300 font-medium">{post.address}</p>
+          </div>
+        )}
+
         {post.latitude && post.longitude && (
-          <div className="flex items-center gap-2 mb-6 text-amerta-green bg-amerta-green/10 w-fit px-3 py-1.5 rounded-xl border border-amerta-green/20">
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2 mb-6 text-amerta-green bg-amerta-green/10 w-fit px-3 py-1.5 rounded-xl border border-amerta-green/20"
+          >
             <FaLeaf size={12} />
             <a 
               href={`https://www.google.com/maps?q=${post.latitude},${post.longitude}`}
@@ -100,13 +120,19 @@ export default function CommunityPost({ post, currentUser }) {
 
         <div className="flex items-center gap-6 pt-6 border-t border-white/5">
           <button 
-            onClick={() => setShowComments(!showComments)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowComments(!showComments);
+            }}
             className="flex items-center gap-2.5 text-gray-400 hover:text-white transition-all text-sm font-bold"
           >
             <FaComment className={`text-lg ${showComments ? 'text-amerta-green' : ''}`} />
             <span>{comments.length} Komentar</span>
           </button>
-          <button className="flex items-center gap-2.5 text-gray-400 hover:text-white transition-all text-sm font-bold">
+          <button 
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center gap-2.5 text-gray-400 hover:text-white transition-all text-sm font-bold"
+          >
             <FaShare className="text-lg" />
             <span>Bagikan</span>
           </button>
@@ -114,7 +140,10 @@ export default function CommunityPost({ post, currentUser }) {
       </div>
 
       {showComments && (
-        <div className="bg-black/20 p-6 md:p-8 border-t border-white/5">
+        <div 
+          onClick={(e) => e.stopPropagation()}
+          className="bg-black/20 p-6 md:p-8 border-t border-white/5"
+        >
           <div className="space-y-6 mb-8">
             {comments.map((c) => (
               <div key={c.id} className="flex gap-4">
@@ -124,7 +153,7 @@ export default function CommunityPost({ post, currentUser }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1.5">
                     <span className="font-bold text-sm text-white">{c.user.name}</span>
-                    <span className="text-[10px] text-gray-600 font-bold">{new Date(c.createdAt).toLocaleDateString()}</span>
+                    <span className="text-[10px] text-gray-600 font-bold">{formatRelativeDate(c.createdAt)}</span>
                   </div>
                   <div className="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5">
                     <p className="text-sm text-gray-400 leading-relaxed font-medium">{c.content}</p>
@@ -148,7 +177,7 @@ export default function CommunityPost({ post, currentUser }) {
               disabled={!currentUser}
               className="w-full bg-white/5 border border-white/10 rounded-[20px] py-4 px-6 pr-14 text-sm focus:outline-none focus:border-amerta-green focus:bg-white/10 transition-all placeholder:text-gray-600"
             />
-            <button 
+            <button
               type="submit"
               disabled={!currentUser}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-amerta-green text-black p-2.5 rounded-xl hover:bg-white transition-all disabled:opacity-20 disabled:grayscale shadow-lg shadow-amerta-green/10"
@@ -161,3 +190,4 @@ export default function CommunityPost({ post, currentUser }) {
     </div>
   );
 }
+

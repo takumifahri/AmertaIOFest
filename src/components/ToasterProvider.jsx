@@ -5,14 +5,19 @@ import { Toaster } from "react-hot-toast";
 export default function ToasterProvider() {
   return (
     <Toaster 
-      position="top-center" 
+      position="top-right" 
+      containerStyle={{
+        zIndex: 99999,
+      }}
       toastOptions={{
         className: 'text-sm font-medium',
         style: {
-          background: '#FFFFFF',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(8px)',
           color: '#1a1f16', // amerta-dark
-          borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          borderRadius: '16px',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+          border: '1px solid rgba(0,0,0,0.05)',
         },
         success: {
           iconTheme: {

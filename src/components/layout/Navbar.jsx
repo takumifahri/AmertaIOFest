@@ -5,9 +5,10 @@ import { FaRecycle, FaUser, FaSignOutAlt, FaColumns } from "react-icons/fa";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
 import api from "@/lib/axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { ThemeToggle } from "./ThemeToggle";
+import { getImageUrl } from "@/lib/imageUrl";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,6 +57,7 @@ export default function Navbar() {
     { name: "Circle Hub", href: "/barter" },
     { name: "Market", href: "/market" },
     { name: "Komunitas", href: "/komunitas" },
+    { name: "Donasi", href: "/donation" },
   ];
 
   return (
@@ -80,19 +83,29 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 rounded-xl hover:bg-primary/5 dark:hover:bg-white/5"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = link.href === "/" 
+                ? pathname === "/" 
+                : pathname.startsWith(link.href);
+              
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 rounded-xl ${
+                    isActive 
+                      ? "bg-primary/10 text-primary dark:bg-white/10 dark:text-white shadow-sm border border-primary/10 dark:border-white/10" 
+                      : "text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white hover:bg-primary/5 dark:hover:bg-white/5"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <div className="h-6 w-px bg-gray-200 dark:bg-white/10 mx-2" />
             {user ? (
               <div className="relative" ref={dropdownRef}>
@@ -102,7 +115,7 @@ export default function Navbar() {
                 >
                   <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white/10 group-hover:border-primary transition-all duration-300 ring-4 ring-primary/5">
                     {user.profilePicture ? (
-                      <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+                      <img src={getImageUrl(user.profilePicture)} alt={user.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full bg-primary/10 text-primary flex items-center justify-center font-black">
                         {user.name?.charAt(0)}
@@ -172,15 +185,25 @@ export default function Navbar() {
       {/* Mobile Navigation */}
       <div className={`${isOpen ? "block" : "hidden"} md:hidden bg-background/95 backdrop-blur-2xl absolute top-20 left-0 w-full rounded-3xl border border-gray-100 dark:border-white/5 shadow-2xl overflow-hidden`}>
         <div className="p-6 space-y-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="block px-4 py-4 rounded-xl text-xs font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5"
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = link.href === "/" 
+              ? pathname === "/" 
+              : pathname.startsWith(link.href);
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`block px-4 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                  isActive
+                    ? "bg-primary/10 text-primary dark:bg-white/10 dark:text-white"
+                    : "text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
           <div className="pt-6 mt-6 border-t border-gray-100 dark:border-white/5 flex flex-col gap-3">
             {user ? (
               <Link
@@ -209,7 +232,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-
-
   );
 }

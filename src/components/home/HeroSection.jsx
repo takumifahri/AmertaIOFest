@@ -24,7 +24,7 @@ export default function HeroSection() {
             
             <h1 className="text-6xl lg:text-8xl font-black tracking-tighter text-foreground mb-8 leading-[0.95]">
               Berikan{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary to-primary-light italic">
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary to-primary-light">
                 Kehidupan Kedua
               </span>{" "}
               Pakaianmu.
@@ -84,7 +84,7 @@ export default function HeroSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
 
-            {/* Hyper-Premium Floating Cards */}
+            {/* Hyper-Premium Floating Cards
             <div className="absolute -bottom-4 -left-4 bg-white/90 dark:bg-surface/90 backdrop-blur-2xl p-6 rounded-[32px] shadow-2xl z-20 border border-white/50 dark:border-white/10 animate-float">
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
@@ -95,9 +95,9 @@ export default function HeroSection() {
                   <p className="text-[9px] font-medium text-gray-400">Terdeteksi di dekat Anda</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="absolute top-10 -right-4 bg-white/90 dark:bg-surface/90 backdrop-blur-2xl p-6 rounded-[32px] shadow-2xl z-20 border border-white/50 dark:border-white/10 animate-float-slow">
+            {/* <div className="absolute top-10 -right-4 bg-white/90 dark:bg-surface/90 backdrop-blur-2xl p-6 rounded-[32px] shadow-2xl z-20 border border-white/50 dark:border-white/10 animate-float-slow">
               <div className="flex items-center gap-5">
                 <div className="w-12 h-12 bg-accent text-white rounded-xl flex items-center justify-center shadow-lg shadow-accent/20">
                   <FaRecycle size={20} />
@@ -107,7 +107,7 @@ export default function HeroSection() {
                   <p className="text-[9px] font-medium text-gray-400">2.5kg Pakaian Bersih</p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Decorative Background Blob */}
             <div className="absolute -z-10 w-full h-full bg-primary/5 rounded-full blur-[100px] scale-150" />

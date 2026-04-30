@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import api from '@/lib/axios';
 import toast from 'react-hot-toast';
-import CommunityPost from '@/components/community/CommunityPost';
+import CreatePostModal from '@/components/community/CreatePostModal';
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState([]);
@@ -15,14 +15,6 @@ export default function CommunityPage() {
   const [filter, setFilter] = useState('ALL');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
-  // Form State
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    type: 'EDUCATION',
-    imageUrl: ''
-  });
 
   useEffect(() => {
     fetchPosts();
@@ -51,13 +43,11 @@ export default function CommunityPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCreatePost = async (formData) => {
     try {
       await api.post('/community', formData);
       toast.success('Postingan berhasil dibuat!');
       setIsModalOpen(false);
-      setFormData({ title: '', content: '', type: 'EDUCATION', imageUrl: '' });
       fetchPosts();
     } catch (error) {
       toast.error('Gagal membuat postingan');
@@ -72,143 +62,88 @@ export default function CommunityPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold text-amerta-dark flex items-center gap-3">
-            <span className="p-2 bg-amerta-sand/30 rounded-xl">
-              <FaLeaf className="text-amerta-green" />
-            </span>
-            Komunitas Amerta
-          </h1>
-          <p className="text-gray-500 mt-2 font-medium">Berbagi inspirasi untuk masa depan sirkular.</p>
-        </div>
-        
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="bg-amerta-dark text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-black transition-all shadow-lg shadow-black/10 active:scale-95"
-        >
-          <FaPlus />
-          Buat Postingan
-        </button>
-      </div>
-
-      {/* Filter Chips */}
-      <div className="flex overflow-x-auto pb-4 mb-6 gap-3 no-scrollbar">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setFilter(cat.id)}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap border
-              ${filter === cat.id 
-                ? 'bg-amerta-dark text-white border-amerta-dark shadow-md' 
-                : 'bg-white text-gray-500 border-gray-100 hover:border-amerta-sand'
-              }`}
+    <div className="min-h-screen bg-[#FCFBF7] dark:bg-[#0d110f] transition-colors duration-500">
+      <div className="max-w-5xl mx-auto px-6 py-12">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div className="space-y-4 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+              <FaLeaf className="text-primary text-xs" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Amerta Ecosystem</span>
+            </div>
+            <h1 className="text-6xl font-black text-amerta-dark dark:text-white leading-tight tracking-tighter">
+              Komunitas<br />Sirkular
+            </h1>
+            <p className="text-gray-500 dark:text-gray-400 max-w-md text-lg font-medium leading-relaxed">
+              Temukan inspirasi, edukasi, dan peluang kolaborasi untuk gaya hidup tanpa limbah.
+            </p>
+          </div>
+          
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="group relative bg-primary hover:bg-primary-light text-black px-10 py-5 rounded-[24px] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-[0_20px_40px_rgba(43,76,59,0.2)] active:scale-95 flex items-center gap-3 overflow-hidden"
           >
-            {cat.icon}
-            {cat.name}
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+            <FaPlus className="relative z-10" />
+            <span className="relative z-10">Mulai Gerakan</span>
           </button>
-        ))}
-      </div>
+        </div>
 
-      {/* Feed */}
-      <div className="space-y-6">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 space-y-4">
-            <div className="w-10 h-10 border-4 border-amerta-sand border-t-amerta-dark rounded-full animate-spin" />
-            <p className="text-gray-400 font-medium animate-pulse">Memuat postingan...</p>
-          </div>
-        ) : posts.length > 0 ? (
-          posts.map((post) => (
-            <CommunityPost key={post.id} post={post} currentUser={currentUser} />
-          ))
-        ) : (
-          <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-gray-100">
-            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-200">
-              <FaLeaf size={40} />
-            </div>
-            <h3 className="text-lg font-bold text-gray-700">Belum ada postingan</h3>
-            <p className="text-gray-400 mt-1 max-w-xs mx-auto">Mulai berbagi edukasi atau ajak teman-teman bertukar pakaian!</p>
-          </div>
-        )}
-      </div>
-
-      {/* Create Post Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm" 
-            onClick={() => setIsModalOpen(false)}
-          />
-          <div className="bg-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl relative z-10 animate-in fade-in zoom-in duration-200">
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-amerta-dark">Buat Postingan Baru</h2>
-              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-red-500 transition-colors">
-                <FaTimes size={20} />
-              </button>
-            </div>
-            
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Judul Postingan</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm focus:outline-none focus:border-amerta-sand"
-                  placeholder="Contoh: Tips Mengolah Kaos Bekas Menjadi Tas"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Kategori</label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({...formData, type: e.target.value})}
-                    className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm focus:outline-none focus:border-amerta-sand appearance-none"
-                  >
-                    <option value="EDUCATION">Edukasi</option>
-                    <option value="EXCHANGE">Tukar Menukar</option>
-                    <option value="ANNOUNCEMENT">Pengumuman</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">URL Gambar (Opsional)</label>
-                  <input
-                    type="text"
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                    className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm focus:outline-none focus:border-amerta-sand"
-                    placeholder="https://..."
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Konten</label>
-                <textarea
-                  required
-                  rows={5}
-                  value={formData.content}
-                  onChange={(e) => setFormData({...formData, content: e.target.value})}
-                  className="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 text-sm focus:outline-none focus:border-amerta-sand resize-none"
-                  placeholder="Jelaskan detail edukasi atau tawaran tukar menukarmu di sini..."
-                />
-              </div>
-
+        {/* Filter Bar */}
+        <div className="sticky top-24 z-40 mb-12 py-4 bg-[#FCFBF7]/80 dark:bg-[#0d110f]/80 backdrop-blur-xl border-y border-black/5 dark:border-white/5 -mx-6 px-6">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {categories.map((cat) => (
               <button
-                type="submit"
-                className="w-full bg-amerta-dark text-white py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg active:scale-[0.98]"
+                key={cat.id}
+                onClick={() => setFilter(cat.id)}
+                className={`flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border
+                  ${filter === cat.id 
+                    ? 'bg-amerta-dark dark:bg-white text-white dark:text-black border-transparent shadow-xl' 
+                    : 'bg-transparent text-gray-400 border-transparent hover:border-gray-200 dark:hover:border-white/10'
+                  }`}
               >
-                Posting Sekarang
+                <span className={filter === cat.id ? 'opacity-100' : 'opacity-40'}>{cat.icon}</span>
+                {cat.name}
               </button>
-            </form>
+            ))}
           </div>
         </div>
-      )}
+
+        {/* Feed Grid */}
+        <div className="grid grid-cols-1 gap-12">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-32 space-y-6">
+              <div className="relative">
+                <div className="w-16 h-16 border-[6px] border-primary/20 rounded-full animate-spin" />
+                <div className="w-16 h-16 border-[6px] border-primary border-t-transparent rounded-full animate-spin absolute inset-0" />
+              </div>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary animate-pulse">Menyelaraskan Data...</p>
+            </div>
+          ) : posts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {posts.map((post, idx) => (
+                <div key={post.id} className="animate-fade-in-up" style={{ animationDelay: `${idx * 100}ms` }}>
+                  <CommunityPost post={post} currentUser={currentUser} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-white/5 rounded-[40px] p-20 text-center border-2 border-dashed border-gray-100 dark:border-white/5">
+              <div className="w-24 h-24 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 text-gray-200 dark:text-white/10">
+                <FaLeaf size={40} />
+              </div>
+              <h3 className="text-2xl font-black text-gray-700 dark:text-white tracking-tight">Belum ada jejak gerakan</h3>
+              <p className="text-gray-400 mt-2 max-w-xs mx-auto font-medium">Jadilah yang pertama untuk memulai perubahan positif hari ini.</p>
+            </div>
+          )}
+        </div>
+
+        <CreatePostModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          onSubmit={handleCreatePost}
+        />
+      </div>
     </div>
   );
 }
