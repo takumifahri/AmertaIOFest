@@ -173,13 +173,13 @@ export default function DonationPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <motion.div 
+          {/* <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[3px] mb-6"
           >
             <FaHeart className="animate-pulse" /> Berbagi Kebaikan
-          </motion.div>
+          </motion.div> */}
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -216,7 +216,7 @@ export default function DonationPage() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-8 bg-white/70 dark:bg-background/80 backdrop-blur-3xl border border-gray-200/50 dark:border-white/5 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden min-h-[500px] flex flex-col"
+            className="lg:col-span-8 bg-background/80 backdrop-blur-3xl border border-white/5 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden min-h-[500px] flex flex-col"
           >
             <form onSubmit={handleSubmit} className="relative z-10 flex-1 flex flex-col">
               <AnimatePresence mode="wait">

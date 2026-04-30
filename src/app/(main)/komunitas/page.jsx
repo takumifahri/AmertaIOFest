@@ -97,7 +97,7 @@ export default function CommunityPage() {
     }, [showMap, userLocation]);
 
     return (
-        <div className="min-h-screen bg-[#FCFBF7] dark:bg-[#0d110f] transition-colors duration-500">
+        <div className="min-h-screen bg-[#0d110f] transition-colors duration-500">
             {/* Dynamic Background Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
@@ -220,7 +220,7 @@ export default function CommunityPage() {
                 )}
 
                 {/* Filter Bar */}
-                <div className="sticky top-24 z-40 mb-16 py-6 bg-[#FCFBF7]/80 dark:bg-[#0d110f]/80 backdrop-blur-xl border-y border-black/5 dark:border-white/5 -mx-6 px-6">
+                <div className="sticky top-24 z-40 mb-16 py-6 bg-[#0d110f]/80 backdrop-blur-xl border-y border-white/5 -mx-6 px-6">
                     <div className="flex items-center gap-3 overflow-x-auto no-scrollbar">
                         {categories.map((cat) => (
                             <button

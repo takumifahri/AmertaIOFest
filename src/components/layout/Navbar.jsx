@@ -54,27 +54,26 @@ export default function Navbar() {
   const navLinks = [
     { name: "Beranda", href: "/" },
     { name: "AI Gatekeeper", href: "/ai-check" },
-    { name: "Circle Hub", href: "/barter" },
     { name: "Market", href: "/market" },
     { name: "Komunitas", href: "/komunitas" },
     { name: "Donasi", href: "/donation" },
   ];
 
   return (
-    <nav className="sticky top-4 z-50 w-[95%] max-w-7xl mx-auto bg-white/70 dark:bg-background/70 backdrop-blur-2xl border border-gray-200/50 dark:border-white/5 rounded-[28px] transition-all duration-500 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_80px_rgba(0,0,0,0.5)] mt-4">
+    <nav className="sticky top-4 z-50 w-[95%] max-w-7xl mx-auto bg-background/70 backdrop-blur-2xl border border-white/5 rounded-[28px] transition-all duration-500 shadow-[0_20px_80px_rgba(0,0,0,0.5)] mt-4">
       <div className="px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-10 h-10 bg-white dark:bg-white/5 rounded-xl flex items-center justify-center p-1 group-hover:rotate-6 transition-all duration-500 shadow-sm border border-gray-200/50 dark:border-white/10">
-                <img src="/images/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="Amerta Logo" className="w-full h-full object-contain" />
               </div>
               <div className="hidden sm:block">
                 <span className="font-black text-xl tracking-tighter text-foreground uppercase leading-none">
                   Amerta
                 </span>
-                <p className="text-[7px] uppercase tracking-[4px] text-primary font-black leading-none mt-1">
+                <p className="text-[7px] uppercase tracking-[4px] text-primary/80 dark:text-secondary font-black leading-none mt-1">
                   Circular Economy
                 </p>
               </div>
@@ -171,7 +170,6 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden gap-3">
-            <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-xl text-gray-400 hover:bg-white/5 transition-all"

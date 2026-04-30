@@ -14,8 +14,8 @@ export default function FeatureList() {
     {
       id: "hyper-local",
       icon: <FaMap size={32} />,
-      title: "Hyper-Local Hub",
-      description: "Algoritma geolokasi mencocokkan Anda dengan titik Drop-off terdekat untuk meminimalisir emisi transportasi.",
+      title: "Hyper-Local Drop-off",
+      description: "Algoritma geolokasi mencocokkan Anda dengan titik penyerahan terdekat untuk meminimalisir emisi transportasi.",
       color: "text-primary",
       bgColor: "bg-primary/10",
     },

@@ -13,16 +13,32 @@
   --font-outfit: var(--font-outfit);
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #FCFBF7;
-  --foreground: #1A231C;
-  --color-surface: #FFFFFF;
+  color-scheme: dark;
+  --background: #060907;
+  --foreground: #F1F4F2;
+  --color-surface: #0a120e;
 }
 
-.dark {
-  --background: #0d110f;
-  --foreground: #F1F4F2;
-  --color-surface: #141a17;
+/* Force dark mode with green tint even if browser prefers light */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #060907;
+    --foreground: #F1F4F2;
+    --color-surface: #0a120e;
+  }
+}
+
+@layer base {
+  /* Global overrides to force black theme on hardcoded light classes */
+  .bg-white { background-color: var(--color-surface) !important; }
+  .bg-gray-50 { background-color: var(--background) !important; }
+  .bg-gray-100 { background-color: var(--color-surface) !important; }
+  .border-gray-100, .border-gray-200 { border-color: rgba(255, 255, 255, 0.05) !important; }
+  .text-gray-500, .text-gray-600 { color: #9ca3af !important; }
+  .text-amerta-dark { color: #ffffff !important; }
 }
 
 body {

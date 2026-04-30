@@ -17,7 +17,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Main Copy */}
           <div className="lg:col-span-6 animate-fade-in-up">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-[9px] font-black uppercase tracking-[3px] text-primary mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-[3px] text-primary mb-8 shadow-sm">
               <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span>Next Gen Circular Hub</span>
             </div>
@@ -44,7 +44,7 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="/how-it-works"
-                className="inline-flex justify-center items-center gap-3 bg-white dark:bg-white/5 text-foreground border border-gray-200 dark:border-white/10 px-10 py-5 rounded-2xl text-[12px] font-black uppercase tracking-widest transition-all hover:bg-gray-50 dark:hover:bg-white/10 active:scale-95"
+                className="inline-flex justify-center items-center gap-3 bg-white/5 text-foreground border border-white/10 px-10 py-5 rounded-2xl text-[12px] font-black uppercase tracking-widest transition-all hover:bg-white/10 active:scale-95"
               >
                 Pelajari Caranya
               </Link>
