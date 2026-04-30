@@ -37,8 +37,9 @@ export default function Footer() {
             <h3 className="font-semibold text-amerta-dark mb-6 uppercase tracking-wider text-sm">Layanan</h3>
             <ul className="space-y-4">
               <li>
-                <Link href="/ai-check" className="text-gray-600 dark:text-gray-400 hover:text-amerta-green text-sm transition-colors">
+                <Link href="/ai-check" className="flex items-center gap-2 group text-gray-600 dark:text-gray-400 hover:text-amerta-green text-sm transition-colors">
                   AI Quality Gatekeeper
+                  <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-black">SOON</span>
                 </Link>
               </li>
               <li>
@@ -47,8 +48,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/market" className="text-gray-600 dark:text-gray-400 hover:text-amerta-green text-sm transition-colors">
-                  Amarta Point Market
+                <Link href="/market" className="flex items-center gap-2 group text-gray-600 dark:text-gray-400 hover:text-amerta-green text-sm transition-colors">
+                  Amerta Point Market
+                  <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-black">SOON</span>
                 </Link>
               </li>
               <li>

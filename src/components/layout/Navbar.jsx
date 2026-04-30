@@ -53,8 +53,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Beranda", href: "/" },
-    { name: "AI Gatekeeper", href: "/ai-check" },
-    { name: "Market", href: "/market" },
+    { name: "AI Gatekeeper", href: "/ai-check", isUnderConstruction: true },
+    { name: "Market", href: "/market", isUnderConstruction: true },
     { name: "Komunitas", href: "/komunitas" },
     { name: "Donasi", href: "/donation" },
   ];
@@ -91,13 +91,16 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 rounded-xl ${
+                  className={`px-4 py-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 rounded-xl relative flex items-center gap-2 ${
                     isActive 
                       ? "bg-primary/10 text-primary dark:bg-white/10 dark:text-white shadow-sm border border-primary/10 dark:border-white/10" 
                       : "text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-white hover:bg-primary/5 dark:hover:bg-white/5"
                   }`}
                 >
                   {link.name}
+                  {link.isUnderConstruction && (
+                    <span className="text-[7px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-black">SOON</span>
+                  )}
                 </Link>
               );
             })}
@@ -192,13 +195,16 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`block px-4 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                className={`flex items-center justify-between px-4 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
                   isActive
                     ? "bg-primary/10 text-primary dark:bg-white/10 dark:text-white"
                     : "text-gray-600 dark:text-gray-300 hover:text-primary hover:bg-primary/5"
                 }`}
               >
                 {link.name}
+                {link.isUnderConstruction && (
+                  <span className="text-[8px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-black">UNDER CONSTRUCTION</span>
+                )}
               </Link>
             );
           })}

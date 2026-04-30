@@ -51,9 +51,8 @@ export default function DashboardSidebar() {
 
   const navItems = [
     { label: "Overview", icon: FaHome, href: "/dashboard" },
-    { label: "Manajemen Barang", icon: FaBoxOpen, href: "/dashboard/items" },
     { label: "Chat", icon: FaCommentDots, href: "/dashboard/chat" },
-    { label: "Histori Aktivitas", icon: FaHistory, href: "/dashboard/history" },
+    { label: "Histori Aktivitas", icon: FaHistory, href: "/dashboard/history", isUnderConstruction: true },
     { label: "AI Kurator", icon: FaRobot, href: "/dashboard/ai" },
     { label: "Komunitas", icon: FaLeaf, href: "/komunitas" },
     { label: "Profil Saya", icon: FaUser, href: "/dashboard/profile" },
@@ -115,12 +114,17 @@ export default function DashboardSidebar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm group ${
+                  className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all font-medium text-sm group ${
                     isActive ? "bg-primary text-white shadow-md shadow-primary/20" : "text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
                   }`}
                 >
-                  <Icon className={`${isActive ? "text-white" : "text-gray-400 group-hover:text-primary"} shrink-0`} />
-                  {!isCollapsed && <span className="whitespace-nowrap">{item.label}</span>}
+                  <div className="flex items-center gap-3">
+                    <Icon className={`${isActive ? "text-white" : "text-gray-400 group-hover:text-primary"} shrink-0`} />
+                    {!isCollapsed && <span className="whitespace-nowrap">{item.label}</span>}
+                  </div>
+                  {!isCollapsed && item.isUnderConstruction && (
+                    <span className="text-[8px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-black">SOON</span>
+                  )}
                 </Link>
               );
             })}

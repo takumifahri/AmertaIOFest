@@ -1,5 +1,6 @@
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { FaMap, FaCoins } from "react-icons/fa";
+import Link from "next/link";
 
 export default function FeatureList() {
   const features = [
@@ -10,6 +11,7 @@ export default function FeatureList() {
       description: "Deep Learning kami mendeteksi kerusakan, noda, dan membagi kondisi pakaian ke dalam 4 kategori kelayakan.",
       color: "text-blue-500",
       bgColor: "bg-blue-50 dark:bg-blue-500/10",
+      isComingSoon: true
     },
     {
       id: "hyper-local",
@@ -54,8 +56,11 @@ export default function FeatureList() {
                 {feature.icon}
               </div>
               
-              <h4 className="text-2xl font-black text-foreground mb-6 tracking-tight">
+              <h4 className="text-2xl font-black text-foreground mb-6 tracking-tight flex items-center gap-3">
                 {feature.title}
+                {feature.isComingSoon && (
+                  <span className="text-[8px] bg-primary/20 text-primary px-2 py-1 rounded-full font-black tracking-[1px]">SOON</span>
+                )}
               </h4>
               
               <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
@@ -63,9 +68,12 @@ export default function FeatureList() {
               </p>
               
               <div className="mt-8 pt-8 border-t border-gray-50 dark:border-white/5">
-                 <span className="text-[10px] font-black uppercase tracking-[2px] text-primary group-hover:gap-3 flex items-center gap-2 transition-all cursor-pointer">
+                 <Link 
+                   href={feature.id === "ai-gatekeeper" ? "/ai-check" : "#"} 
+                   className="text-[10px] font-black uppercase tracking-[2px] text-primary hover:gap-3 flex items-center gap-2 transition-all cursor-pointer"
+                 >
                     Pelajari Selengkapnya →
-                 </span>
+                 </Link>
               </div>
             </div>
           ))}
