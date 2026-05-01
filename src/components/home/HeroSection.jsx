@@ -17,10 +17,6 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Main Copy */}
           <div className="lg:col-span-6 animate-fade-in-up">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-[3px] text-primary mb-8 shadow-sm">
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span>Next Gen Circular Hub</span>
-            </div>
             
             <h1 className="text-6xl lg:text-8xl font-black tracking-tighter text-foreground mb-8 leading-[0.95]">
               Berikan{" "}
