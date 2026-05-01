@@ -4,8 +4,8 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import api from '@/lib/axios';
 import toast from 'react-hot-toast';
-import { 
-  FaChevronLeft, FaUserCircle, FaLeaf, FaComment, 
+import {
+  FaChevronLeft, FaUserCircle, FaLeaf, FaComment,
   FaShare, FaMapMarkerAlt, FaPaperPlane, FaChevronRight,
   FaEllipsisV, FaBan
 } from 'react-icons/fa';
@@ -36,7 +36,7 @@ export default function PostDetailPage() {
   const fetchUser = async () => {
     try {
       const res = await api.get('/auth/me');
-      setCurrentUser(res.data.user);
+      setCurrentUser(res.data.data.user);
     } catch (err) {
       setCurrentUser(null);
     }
@@ -136,9 +136,9 @@ export default function PostDetailPage() {
   return (
     <div className="min-h-screen bg-[#FCFBF7] dark:bg-[#0d110f] transition-colors duration-500 py-6 md:py-12">
       <div className="max-w-7xl mx-auto px-4">
-        
+
         {/* Navigation */}
-        <Link 
+        <Link
           href="/komunitas"
           className="inline-flex items-center gap-2 text-gray-500 hover:text-primary transition-colors mb-6 group"
         >
@@ -148,37 +148,37 @@ export default function PostDetailPage() {
 
         {/* Side-by-Side Post Detail (Social Media Desktop Style) */}
         <article className="bg-white dark:bg-[#0f0f0f] rounded-[32px] border border-black/5 dark:border-white/10 overflow-hidden shadow-2xl flex flex-col lg:flex-row min-h-[600px] lg:max-h-[85vh]">
-          
+
           {/* Left Side: Images Carousel */}
           <div className="lg:w-[60%] bg-black relative flex items-center justify-center overflow-hidden">
             {post.images && post.images.length > 0 ? (
               <>
-                <img 
-                  src={getImageUrl(post.images[activeImageIndex].url)} 
-                  className="w-full h-full object-contain" 
+                <img
+                  src={getImageUrl(post.images[activeImageIndex].url)}
+                  className="w-full h-full object-contain"
                   alt={post.title}
                 />
-                
+
                 {/* Navigation Arrows */}
                 {post.images.length > 1 && (
                   <>
-                    <button 
+                    <button
                       onClick={prevImage}
                       className="absolute left-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all"
                     >
                       <FaChevronLeft />
                     </button>
-                    <button 
+                    <button
                       onClick={nextImage}
                       className="absolute right-4 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition-all"
                     >
                       <FaChevronRight />
                     </button>
-                    
+
                     {/* Indicators */}
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
                       {post.images.map((_, idx) => (
-                        <div 
+                        <div
                           key={idx}
                           className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${idx === activeImageIndex ? 'bg-primary w-4' : 'bg-white/30'}`}
                         />
@@ -197,14 +197,14 @@ export default function PostDetailPage() {
 
           {/* Right Side: Header, Content, Comments */}
           <div className="lg:w-[40%] flex flex-col border-l border-black/5 dark:border-white/10 bg-white dark:bg-[#0c0c0c]">
-            
+
             {/* Header */}
             <div className="p-6 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
               <div className="flex items-center gap-4 relative">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                   <FaUserCircle size={24} className="opacity-40" />
                 </div>
-                <div 
+                <div
                   className="cursor-pointer group/author"
                   onClick={() => setShowAuthorMenu(!showAuthorMenu)}
                 >
@@ -220,12 +220,12 @@ export default function PostDetailPage() {
                 {/* Author Dropdown Menu */}
                 {showAuthorMenu && (
                   <>
-                    <div 
-                      className="fixed inset-0 z-10" 
-                      onClick={() => setShowAuthorMenu(false)} 
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setShowAuthorMenu(false)}
                     />
                     <div className="absolute top-12 left-10 w-48 bg-white dark:bg-[#1a1a1a] border border-black/5 dark:border-white/10 rounded-2xl shadow-2xl z-20 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                      <button 
+                      <button
                         onClick={handleChatWithAuthor}
                         disabled={isChatLoading}
                         className="w-full flex items-center gap-3 px-4 py-3 text-left text-xs font-bold text-amerta-dark dark:text-white hover:bg-primary/10 hover:text-primary transition-all disabled:opacity-50"
@@ -237,7 +237,7 @@ export default function PostDetailPage() {
                         )}
                         <span>Chat dengan Author</span>
                       </button>
-                      <button 
+                      <button
                         onClick={handleBlockAuthor}
                         className="w-full flex items-center gap-3 px-4 py-3 text-left text-xs font-bold text-red-500 hover:bg-red-500/10 transition-all border-t border-black/5 dark:border-white/5"
                       >
@@ -272,7 +272,7 @@ export default function PostDetailPage() {
                     <p className="text-[9px] font-black text-primary uppercase tracking-widest mb-0.5">Lokasi</p>
                     <p className="text-xs text-amerta-dark dark:text-white font-bold leading-tight line-clamp-2">{post.address}</p>
                     {post.latitude && (
-                      <a 
+                      <a
                         href={`https://www.google.com/maps?q=${post.latitude},${post.longitude}`}
                         target="_blank"
                         className="inline-block mt-2 text-[8px] font-black uppercase tracking-widest text-primary hover:underline"
@@ -349,7 +349,7 @@ export default function PostDetailPage() {
           </div>
         </article>
       </div>
-      
+
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

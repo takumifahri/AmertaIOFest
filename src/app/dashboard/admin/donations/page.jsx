@@ -144,6 +144,15 @@ export default function AdminDonationPage() {
                       <td colSpan={7} className="p-6"><div className="h-12 bg-gray-100 dark:bg-white/5 rounded-2xl w-full" /></td>
                     </tr>
                   ))
+                ) : filteredDonations.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="p-0">
+                      <div className="text-center py-24 bg-background/50">
+                        <FaHourglassHalf className="mx-auto text-gray-200 dark:text-white/10 mb-4" size={48} />
+                        <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">Data tidak ditemukan</p>
+                      </div>
+                    </td>
+                  </tr>
                 ) : filteredDonations.map((donation) => (
                   <tr key={donation.id} className="hover:bg-gray-50/50 dark:hover:bg-white/[0.01] transition-colors group">
                     <td className="p-6">
@@ -233,14 +242,8 @@ export default function AdminDonationPage() {
               </tbody>
             </table>
           </div>
-
-          {!loading && filteredDonations.length === 0 && (
-            <div className="text-center py-24">
-              <FaHourglassHalf className="mx-auto text-gray-200 mb-4" size={48} />
-              <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">Data tidak ditemukan</p>
-            </div>
-          )}
         </div>
+
       </div>
 
       {/* Custom Confirmation Modal */}

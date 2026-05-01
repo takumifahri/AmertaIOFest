@@ -120,27 +120,31 @@ export default function AdminOrdersPage() {
 
       {/* Table Section */}
       <div className="bg-[#0d1410] rounded-[40px] border border-white/5 shadow-2xl overflow-hidden min-h-[500px] flex flex-col transition-all relative">
-        {filteredOrders.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center p-20 text-center">
-            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse border border-white/5">
-                <FaClock className="text-3xl text-[#1a2e21]" />
-            </div>
-            <h3 className="text-lg font-black uppercase tracking-[3px] text-[#1a2e21]">DATA TIDAK DITEMUKAN</h3>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-black/40 border-b border-white/5">
-                  <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-[#1a2e21]">BARANG</th>
-                  <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-[#1a2e21]">PEMBELI</th>
-                  <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-[#1a2e21] text-center">TOTAL</th>
-                  <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-[#1a2e21] text-center">STATUS</th>
-                  <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-[#1a2e21] text-right">AKSI</th>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-black/40 border-b border-white/5">
+                <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-gray-500">BARANG</th>
+                <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-gray-500">PEMBELI</th>
+                <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-gray-500 text-center">TOTAL</th>
+                <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-gray-500 text-center">STATUS</th>
+                <th className="px-8 py-7 text-[10px] font-black uppercase tracking-[2px] text-gray-500 text-right">AKSI</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="p-0">
+                    <div className="flex-1 flex flex-col items-center justify-center p-20 text-center">
+                      <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 animate-pulse border border-white/5">
+                        <FaClock className="text-3xl text-gray-700" />
+                      </div>
+                      <h3 className="text-lg font-black uppercase tracking-[3px] text-gray-700">DATA TIDAK DITEMUKAN</h3>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {filteredOrders.map((order) => (
+              ) : (
+                filteredOrders.map((order) => (
                   <tr key={order.id} className="hover:bg-white/[0.02] transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
@@ -171,17 +175,17 @@ export default function AdminOrdersPage() {
                     <td className="px-8 py-6 text-right">
                       <button 
                         onClick={() => { setSelectedOrder(order); setIsProofOpen(true); }}
-                        className="p-3 bg-white/5 rounded-xl text-[#1a2e21] hover:text-primary hover:bg-primary/10 transition-all shadow-sm"
+                        className="p-3 bg-white/5 rounded-xl text-gray-600 hover:text-primary hover:bg-primary/10 transition-all shadow-sm"
                       >
                         <FaEye />
                       </button>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Modal View Proof & Action */}

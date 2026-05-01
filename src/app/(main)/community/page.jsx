@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { 
-  FaPlus, FaFilter, FaLeaf, FaExchangeAlt, 
+import {
+  FaPlus, FaFilter, FaLeaf, FaExchangeAlt,
   FaBullhorn, FaGraduationCap, FaSync,
   FaImage, FaTimes
 } from 'react-icons/fa';
@@ -24,7 +24,7 @@ export default function CommunityPage() {
   const fetchUser = async () => {
     try {
       const res = await api.get('/auth/me');
-      setCurrentUser(res.data.user);
+      setCurrentUser(res.data.data.user);
     } catch (err) {
       console.error('Failed to fetch user');
     }
@@ -78,8 +78,8 @@ export default function CommunityPage() {
               Temukan inspirasi, edukasi, dan peluang kolaborasi untuk gaya hidup tanpa limbah.
             </p>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => setIsModalOpen(true)}
             className="group relative bg-primary hover:bg-primary-light text-black px-10 py-5 rounded-[24px] font-black uppercase tracking-[0.2em] text-xs transition-all shadow-[0_20px_40px_rgba(43,76,59,0.2)] active:scale-95 flex items-center gap-3 overflow-hidden"
           >
@@ -97,8 +97,8 @@ export default function CommunityPage() {
                 key={cat.id}
                 onClick={() => setFilter(cat.id)}
                 className={`flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border
-                  ${filter === cat.id 
-                    ? 'bg-amerta-dark dark:bg-white text-white dark:text-black border-transparent shadow-xl' 
+                  ${filter === cat.id
+                    ? 'bg-amerta-dark dark:bg-white text-white dark:text-black border-transparent shadow-xl'
                     : 'bg-transparent text-gray-400 border-transparent hover:border-gray-200 dark:hover:border-white/10'
                   }`}
               >
@@ -138,9 +138,9 @@ export default function CommunityPage() {
           )}
         </div>
 
-        <CreatePostModal 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
+        <CreatePostModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
           onSubmit={handleCreatePost}
         />
       </div>

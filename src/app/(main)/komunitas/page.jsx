@@ -5,10 +5,10 @@ import toast from 'react-hot-toast';
 import CommunityPost from '@/components/community/CommunityPost';
 import CreatePostModal from '@/components/community/CreatePostModal';
 import dynamic from 'next/dynamic';
-import { 
-  FaPlus, FaFilter, FaLeaf, FaExchangeAlt, 
-  FaBullhorn, FaGraduationCap, FaSync, 
-  FaSearchLocation, FaMapMarkerAlt 
+import {
+    FaPlus, FaFilter, FaLeaf, FaExchangeAlt,
+    FaBullhorn, FaGraduationCap, FaSync,
+    FaSearchLocation, FaMapMarkerAlt
 } from 'react-icons/fa';
 
 // Dynamically import Leaflet components
@@ -45,7 +45,7 @@ export default function CommunityPage() {
     const fetchUser = async () => {
         try {
             const res = await api.get('/auth/me');
-            setCurrentUser(res.data.user);
+            setCurrentUser(res.data.data.user);
         } catch (err) {
             setCurrentUser(null);
         }
@@ -108,7 +108,7 @@ export default function CommunityPage() {
                 {/* Hero Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-12">
                     <div className="space-y-6 animate-fade-in-up">
-                        
+
                         <h1 className="text-7xl md:text-8xl font-black text-amerta-dark dark:text-white leading-[0.85] tracking-tighter">
                             GERAKAN<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-amerta-dark dark:to-white">SIRKULAR</span>
@@ -117,9 +117,9 @@ export default function CommunityPage() {
                             Platform kolaboratif untuk berbagi edukasi, aksi penanggulangan limbah, dan tukar menukar di sekitarmu.
                         </p>
                     </div>
-                    
+
                     <div className="flex flex-col sm:flex-row items-center gap-4">
-                        <button 
+                        <button
                             onClick={() => {
                                 if (!currentUser) toast.error('Silakan login terlebih dahulu');
                                 else setIsModalOpen(true);
@@ -152,9 +152,9 @@ export default function CommunityPage() {
                             className="z-10 grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000"
                         >
                             <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
-                            
+
                             {userLocation && (
-                                <Marker 
+                                <Marker
                                     position={[userLocation.lat, userLocation.lng]}
                                     icon={L ? L.divIcon({
                                         className: 'user-marker',
@@ -180,8 +180,8 @@ export default function CommunityPage() {
                                 };
 
                                 return (
-                                    <Marker 
-                                        key={post.id} 
+                                    <Marker
+                                        key={post.id}
                                         position={[post.latitude, post.longitude]}
                                         icon={L ? L.divIcon({
                                             className: 'custom-marker',
@@ -204,7 +204,7 @@ export default function CommunityPage() {
                                                         {post.address || 'Lokasi tidak bernama'}
                                                     </p>
                                                 </div>
-                                                <button 
+                                                <button
                                                     onClick={() => window.location.href = `/komunitas/${post.id}`}
                                                     className="w-full bg-black text-white py-2.5 rounded-xl text-[10px] font-black uppercase tracking-[1px] hover:bg-primary hover:text-black transition-all"
                                                 >
@@ -227,8 +227,8 @@ export default function CommunityPage() {
                                 key={cat.id}
                                 onClick={() => setFilter(cat.id)}
                                 className={`flex items-center gap-4 px-10 py-5 rounded-[22px] text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap border
-                                    ${filter === cat.id 
-                                        ? 'bg-amerta-dark dark:bg-white text-white dark:text-black border-transparent shadow-2xl scale-105' 
+                                    ${filter === cat.id
+                                        ? 'bg-amerta-dark dark:bg-white text-white dark:text-black border-transparent shadow-2xl scale-105'
                                         : 'bg-transparent text-gray-400 border-transparent hover:border-gray-200 dark:hover:border-white/10'
                                     }`}
                             >
@@ -266,9 +266,9 @@ export default function CommunityPage() {
                     )}
                 </div>
 
-                <CreatePostModal 
-                    isOpen={isModalOpen} 
-                    onClose={() => setIsModalOpen(false)} 
+                <CreatePostModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
                     onSubmit={handleCreatePost}
                 />
             </div>

@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
-import { 
-  FaHeart, FaBuilding, FaUserAlt, FaCheckCircle, 
-  FaExclamationCircle, FaTools, FaCoins, FaCamera, 
+import {
+  FaHeart, FaBuilding, FaUserAlt, FaCheckCircle,
+  FaExclamationCircle, FaTools, FaCoins, FaCamera,
   FaTimes, FaPlus, FaArrowRight, FaArrowLeft, FaHandSparkles,
   FaLock, FaChevronRight
 } from "react-icons/fa";
@@ -53,7 +53,7 @@ export default function DonationPage() {
     const checkAuth = async () => {
       try {
         const res = await api.get("/auth/me");
-        setUser(res.data.user);
+        setUser(res.data.data.user);
       } catch (err) {
         setUser(null);
       } finally {
@@ -132,7 +132,7 @@ export default function DonationPage() {
       data.append("companyId", formData.companyId);
       data.append("description", formData.description);
       data.append("grade", formData.grade);
-      
+
       selectedImages.forEach((image) => {
         data.append("images", image);
       });
@@ -143,7 +143,7 @@ export default function DonationPage() {
 
       setSuccessData(res.data.data);
       toast.success("Donasi berhasil dikirim! Poin telah ditambahkan.");
-      
+
       // Reset form & Clear storage
       localStorage.removeItem("amerta_donation_form_state");
       setFormData({
@@ -180,7 +180,7 @@ export default function DonationPage() {
           >
             <FaHeart className="animate-pulse" /> Berbagi Kebaikan
           </motion.div> */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -188,32 +188,30 @@ export default function DonationPage() {
           >
             Donasikan <span className="text-primary italic">Pakaianmu</span>
           </motion.h1>
-          
+
           {/* Progress Tracker */}
           <div className="flex items-center justify-center gap-4 mt-12 max-w-md mx-auto relative">
-             <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gray-200 dark:bg-white/5 -translate-y-1/2 -z-10" />
-             {STEPS.map((step) => (
-               <div key={step.id} className="relative flex flex-col items-center gap-2">
-                 <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 border-2 ${
-                   currentStep >= step.id 
-                    ? "bg-primary border-primary text-white scale-110 shadow-lg shadow-primary/30" 
+            <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gray-200 dark:bg-white/5 -translate-y-1/2 -z-10" />
+            {STEPS.map((step) => (
+              <div key={step.id} className="relative flex flex-col items-center gap-2">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 border-2 ${currentStep >= step.id
+                    ? "bg-primary border-primary text-white scale-110 shadow-lg shadow-primary/30"
                     : "bg-background border-gray-200 dark:border-white/10 text-gray-400"
-                 }`}>
-                   {currentStep > step.id ? <FaCheckCircle /> : step.icon}
-                 </div>
-                 <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${
-                   currentStep >= step.id ? "text-primary" : "text-gray-400"
-                 }`}>
-                   {step.title}
-                 </span>
-               </div>
-             ))}
+                  }`}>
+                  {currentStep > step.id ? <FaCheckCircle /> : step.icon}
+                </div>
+                <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${currentStep >= step.id ? "text-primary" : "text-gray-400"
+                  }`}>
+                  {step.title}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Form Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="lg:col-span-8 bg-background/80 backdrop-blur-3xl border border-white/5 rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden min-h-[500px] flex flex-col"
@@ -238,11 +236,10 @@ export default function DonationPage() {
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, type: "AMERTA", companyId: "" })}
-                        className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[32px] border-2 transition-all duration-500 group ${
-                          formData.type === "AMERTA"
+                        className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[32px] border-2 transition-all duration-500 group ${formData.type === "AMERTA"
                             ? "bg-primary text-white border-primary shadow-2xl shadow-primary/30"
                             : "bg-gray-50/50 dark:bg-white/5 border-transparent text-gray-500 hover:border-primary/30"
-                        }`}
+                          }`}
                       >
                         <div className={`p-4 rounded-2xl ${formData.type === "AMERTA" ? "bg-white/20" : "bg-gray-100 dark:bg-white/10"}`}>
                           <FaUserAlt size={32} />
@@ -256,11 +253,10 @@ export default function DonationPage() {
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, type: "COMPANY" })}
-                        className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[32px] border-2 transition-all duration-500 group ${
-                          formData.type === "COMPANY"
+                        className={`flex flex-col items-center justify-center gap-4 p-8 rounded-[32px] border-2 transition-all duration-500 group ${formData.type === "COMPANY"
                             ? "bg-primary text-white border-primary shadow-2xl shadow-primary/30"
                             : "bg-gray-50/50 dark:bg-white/5 border-transparent text-gray-500 hover:border-primary/30"
-                        }`}
+                          }`}
                       >
                         <div className={`p-4 rounded-2xl ${formData.type === "COMPANY" ? "bg-white/20" : "bg-gray-100 dark:bg-white/10"}`}>
                           <FaBuilding size={32} />
@@ -296,7 +292,7 @@ export default function DonationPage() {
                             ))}
                           </select>
                           <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                             <FaArrowRight className="rotate-90" />
+                            <FaArrowRight className="rotate-90" />
                           </div>
                         </div>
                       </motion.div>
@@ -324,16 +320,14 @@ export default function DonationPage() {
                           key={g.value}
                           type="button"
                           onClick={() => setFormData({ ...formData, grade: g.value })}
-                          className={`w-full flex items-center justify-between p-6 rounded-[28px] border-2 transition-all duration-300 relative overflow-hidden group ${
-                            formData.grade === g.value
+                          className={`w-full flex items-center justify-between p-6 rounded-[28px] border-2 transition-all duration-300 relative overflow-hidden group ${formData.grade === g.value
                               ? "bg-white dark:bg-white/5 border-primary shadow-xl"
                               : "bg-gray-50/50 dark:bg-white/5 border-transparent hover:border-gray-200 dark:hover:border-white/10"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-center gap-5 text-left relative z-10">
-                            <div className={`p-4 rounded-2xl transition-transform duration-500 ${
-                              formData.grade === g.value ? "bg-primary text-white rotate-6" : "bg-gray-100 dark:bg-white/10"
-                            }`}>
+                            <div className={`p-4 rounded-2xl transition-transform duration-500 ${formData.grade === g.value ? "bg-primary text-white rotate-6" : "bg-gray-100 dark:bg-white/10"
+                              }`}>
                               {g.icon}
                             </div>
                             <div>
@@ -369,27 +363,27 @@ export default function DonationPage() {
 
                     {!authLoading && !user ? (
                       /* Login Required Section */
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="bg-primary/5 border border-primary/20 rounded-[40px] p-10 text-center space-y-6"
                       >
-                         <div className="w-20 h-20 bg-primary text-white rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
-                            <FaLock size={30} />
-                         </div>
-                         <div className="space-y-2">
-                            <h3 className="text-xl font-black uppercase tracking-tight">Login Diperlukan</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">Kamu hampir sampai! Masuk ke akunmu untuk menyelesaikan pengiriman donasi dan klaim poinmu.</p>
-                         </div>
-                         <div className="flex flex-col gap-3 pt-4">
-                            <Link 
-                              href="/login" 
-                              className="bg-primary text-white py-5 rounded-[24px] text-[12px] font-black uppercase tracking-[3px] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3"
-                            >
-                              Masuk Sekarang <FaChevronRight />
-                            </Link>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Progressmu telah disimpan secara otomatis</p>
-                         </div>
+                        <div className="w-20 h-20 bg-primary text-white rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-primary/30">
+                          <FaLock size={30} />
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="text-xl font-black uppercase tracking-tight">Login Diperlukan</h3>
+                          <p className="text-sm text-gray-500 leading-relaxed">Kamu hampir sampai! Masuk ke akunmu untuk menyelesaikan pengiriman donasi dan klaim poinmu.</p>
+                        </div>
+                        <div className="flex flex-col gap-3 pt-4">
+                          <Link
+                            href="/login"
+                            className="bg-primary text-white py-5 rounded-[24px] text-[12px] font-black uppercase tracking-[3px] shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-3"
+                          >
+                            Masuk Sekarang <FaChevronRight />
+                          </Link>
+                          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Progressmu telah disimpan secara otomatis</p>
+                        </div>
                       </motion.div>
                     ) : (
                       /* Detail Form */
@@ -461,7 +455,7 @@ export default function DonationPage() {
                     <FaArrowLeft /> Kembali
                   </button>
                 )}
-                
+
                 {currentStep < 3 ? (
                   <button
                     type="button"
@@ -493,7 +487,7 @@ export default function DonationPage() {
           {/* Sidebar / Info Section */}
           <div className="lg:col-span-4 space-y-6">
             {/* Quick Preview Card */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
@@ -502,7 +496,7 @@ export default function DonationPage() {
               <h3 className="text-[10px] font-black uppercase tracking-[4px] text-primary mb-8 flex items-center gap-2">
                 <div className="w-1 h-1 bg-primary rounded-full" /> Ringkasan Donasi
               </h3>
-              
+
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-2xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500 shrink-0">
@@ -529,25 +523,25 @@ export default function DonationPage() {
                 </div>
 
                 <div className="p-6 rounded-[32px] bg-primary/10 border border-primary/20 flex items-center justify-between">
-                   <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
-                        <FaCoins size={12} />
-                      </div>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primary">Estimasi Poin</span>
-                   </div>
-                   <span className="text-xl font-black text-primary">+{grades.find(g => g.value === formData.grade)?.points}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center">
+                      <FaCoins size={12} />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">Estimasi Poin</span>
+                  </div>
+                  <span className="text-xl font-black text-primary">+{grades.find(g => g.value === formData.grade)?.points}</span>
                 </div>
               </div>
             </motion.div>
 
             {/* Info Cards */}
             <div className="grid grid-cols-1 gap-4">
-               <div className="p-6 rounded-[32px] bg-green-500/5 border border-green-500/10 flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-green-500/20">
-                    <FaCheckCircle size={18} />
-                  </div>
-                  <p className="text-[11px] text-gray-500 leading-relaxed font-medium">Pakaian akan diverifikasi oleh tim kurasi kami secara profesional.</p>
-               </div>
+              <div className="p-6 rounded-[32px] bg-green-500/5 border border-green-500/10 flex gap-4">
+                <div className="w-10 h-10 rounded-xl bg-green-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-green-500/20">
+                  <FaCheckCircle size={18} />
+                </div>
+                <p className="text-[11px] text-gray-500 leading-relaxed font-medium">Pakaian akan diverifikasi oleh tim kurasi kami secara profesional.</p>
+              </div>
             </div>
 
             {/* Success Overlay */}
@@ -565,12 +559,12 @@ export default function DonationPage() {
                     className="max-w-md w-full bg-white dark:bg-background border border-gray-200 dark:border-white/10 rounded-[48px] p-12 text-center shadow-2xl"
                   >
                     <div className="w-24 h-24 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-primary/40 relative">
-                       <FaHeart size={40} className="animate-pulse" />
-                       <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-20" />
+                      <FaHeart size={40} className="animate-pulse" />
+                      <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-20" />
                     </div>
                     <h3 className="text-3xl font-black text-foreground tracking-tighter mb-4 uppercase italic">Terima Kasih!</h3>
                     <p className="text-gray-500 text-sm mb-10 leading-relaxed">Kontribusimu sangat berarti bagi keberlanjutan bumi dan kesejahteraan sesama.</p>
-                    
+
                     <div className="bg-primary/5 rounded-3xl p-6 mb-10 flex items-center justify-center gap-4 border border-primary/10">
                       <FaCoins className="text-primary" size={24} />
                       <div className="text-left">
@@ -578,8 +572,8 @@ export default function DonationPage() {
                         <span className="text-3xl font-black text-primary tracking-tighter">+{successData.points} XP</span>
                       </div>
                     </div>
-                    
-                    <button 
+
+                    <button
                       onClick={() => setSuccessData(null)}
                       className="w-full bg-foreground text-background dark:bg-white dark:text-black py-5 rounded-[24px] text-[12px] font-black uppercase tracking-[3px] hover:opacity-90 transition-all shadow-xl"
                     >
