@@ -71,7 +71,7 @@ export default function AdminDonationPage() {
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8 text-foreground selection:bg-primary selection:text-white transition-colors duration-300">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-8xl mx-auto">
         {/* Page Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-6">
           <div>

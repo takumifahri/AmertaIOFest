@@ -7,7 +7,8 @@ import {
   FaHome, FaBoxOpen, FaCommentDots, 
   FaHistory, FaRobot, FaUser, FaStar, 
   FaSignOutAlt, FaBars, FaChevronLeft, FaLeaf,
-  FaUsersCog, FaFileAlt, FaHandHoldingHeart
+  FaUsersCog, FaFileAlt, FaHandHoldingHeart,
+  FaShoppingBag, FaReceipt, FaTruck
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 import api from "@/lib/axios";
@@ -24,8 +25,8 @@ export default function DashboardSidebar() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get("/auth/me");
-        setUser(res.data.user);
+        const res = await api.get("/profile");
+        setUser(res.data.data);
       } catch (err) {
         setUser(null);
       }
@@ -52,6 +53,8 @@ export default function DashboardSidebar() {
   const navItems = [
     { label: "Overview", icon: FaHome, href: "/dashboard" },
     { label: "Chat", icon: FaCommentDots, href: "/dashboard/chat" },
+    { label: "Keranjang", icon: FaShoppingBag, href: "/market/cart" },
+    { label: "Pesanan Saya", icon: FaReceipt, href: "/dashboard/orders" },
     { label: "Histori Aktivitas", icon: FaHistory, href: "/dashboard/history", isUnderConstruction: true },
     { label: "AI Kurator", icon: FaRobot, href: "/dashboard/ai" },
     { label: "Komunitas", icon: FaLeaf, href: "/komunitas" },
@@ -63,9 +66,10 @@ export default function DashboardSidebar() {
     { label: "Kelola User", icon: FaUsersCog, href: "/dashboard/admin/users" },
     { label: "Kelola Post", icon: FaFileAlt, href: "/dashboard/admin/posts" },
     { label: "Kelola Donasi", icon: FaHandHoldingHeart, href: "/dashboard/admin/donations" },
+    { label: "Kelola Pesanan", icon: FaTruck, href: "/dashboard/admin/orders" },
   ];
 
-  const isAdmin = user?.role === "ADMIN" || user?.role?.name === "ADMIN" || user?.Role === "ADMIN";
+  const isAdmin = (user?.Role || user?.role || user?.role?.name)?.toString().toUpperCase() === "ADMIN";
 
   return (
     <>

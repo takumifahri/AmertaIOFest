@@ -1,6 +1,7 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import ToasterProvider from "@/components/ToasterProvider";
+import ProfileReminder from "@/components/ProfileReminder";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -63,9 +64,9 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col font-outfit transition-colors duration-300">
         <ToasterProvider />
+        <ProfileReminder />
         {children}
       </body>
     </html>
   );
 }
-

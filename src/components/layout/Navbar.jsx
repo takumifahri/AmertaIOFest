@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaRecycle, FaUser, FaSignOutAlt, FaColumns } from "react-icons/fa";
+import { FaRecycle, FaUser, FaSignOutAlt, FaColumns, FaShoppingBag } from "react-icons/fa";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { useState, useEffect, useRef } from "react";
 import api from "@/lib/axios";
@@ -13,23 +13,29 @@ import { getImageUrl } from "@/lib/imageUrl";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const res = await api.get("/auth/me");
-        setUser(res.data.data.user);
+        const userRes = await api.get("/auth/me");
+        setUser(userRes.data.data.user);
+        
+        // Fetch cart count if logged in
+        const cartRes = await api.get("/marketplace/cart");
+        setCartCount(cartRes.data.data.length);
       } catch (err) {
         setUser(null);
+        setCartCount(0);
       }
     };
 
-    fetchUser();
-  }, []);
+    fetchData();
+  }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -55,7 +61,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Beranda", href: "/" },
     { name: "AI Gatekeeper", href: "/ai-check", isUnderConstruction: true },
-    { name: "Market", href: "/market", isUnderConstruction: true },
+    { name: "Market", href: "/market" },
     { name: "Komunitas", href: "/komunitas" },
     { name: "Donasi", href: "/donation" },
   ];
@@ -108,7 +114,19 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            {/* <ThemeToggle /> */}
+            {user && (
+              <Link 
+                href="/market/cart" 
+                className="relative p-2.5 bg-gray-50 dark:bg-white/5 rounded-xl text-gray-500 hover:text-primary transition-all group border border-gray-100 dark:border-white/5"
+              >
+                <FaShoppingBag className="text-sm group-hover:scale-110 transition-transform" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white dark:text-black text-[8px] font-black flex items-center justify-center rounded-full shadow-lg border-2 border-background">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            )}
             <div className="h-6 w-px bg-gray-200 dark:bg-white/10 mx-2" />
             {user ? (
               <div className="relative" ref={dropdownRef}>
@@ -174,6 +192,19 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden gap-3">
+            {user && (
+              <Link 
+                href="/market/cart" 
+                className="relative p-2 text-gray-500 hover:text-primary transition-all group"
+              >
+                <FaShoppingBag size={18} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white dark:text-black text-[8px] font-black flex items-center justify-center rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            )}
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-xl text-gray-400 hover:bg-white/5 transition-all"
