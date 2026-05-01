@@ -6,10 +6,11 @@ import { FaUser, FaPhone, FaMapMarkerAlt, FaArrowRight, FaCamera, FaShoppingBag,
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const STORAGE_URL = process.env.NEXT_PUBLIC_API_STORAGE_URL || "http://localhost:3001";
 
-export default function CheckoutPage() {
+function CheckoutComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedIds = searchParams.get("items")?.split(",") || null;
@@ -369,5 +370,19 @@ export default function CheckoutPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <CheckoutComponent />
+    </Suspense>
   );
 }

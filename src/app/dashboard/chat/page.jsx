@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRooms } from "@/hooks/useRooms";
 import { useChat } from "@/hooks/useChat";
@@ -13,7 +13,7 @@ import {
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
 
-export default function ChatPage() {
+function ChatComponent() {
   const searchParams = useSearchParams();
   const roomParam = searchParams.get("room");
   const { rooms, loading: roomsLoading, refetch: refetchRooms, initiateChat } = useRooms();
@@ -472,4 +472,18 @@ export default function ChatPage() {
       )}
     </div>
   );  
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense 
+      fallback={
+        <div className="h-screen flex items-center justify-center bg-background">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <ChatComponent />
+    </Suspense>
+  );
 }
