@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FaSearch, FaUserShield, FaUserTimes, FaCheckCircle, FaTrashAlt, FaEllipsisV } from "react-icons/fa";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
+import { getImageUrl } from "@/lib/imageUrl";
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
@@ -102,7 +103,7 @@ export default function AdminUsersPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold overflow-hidden border border-primary/20">
                           {user.profilePicture ? (
-                            <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+                            <img src={getImageUrl(user.profilePicture)} alt={user.name} className="w-full h-full object-cover" />
                           ) : (
                             user.name?.charAt(0).toUpperCase()
                           )}
