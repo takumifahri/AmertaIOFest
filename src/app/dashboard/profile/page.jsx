@@ -45,7 +45,7 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     try {
       const res = await api.get("/profile");
-      const data = res.data;
+      const data = res.data.data;
       setProfile({
         name: data.name || "",
         email: data.email || "",
@@ -100,7 +100,8 @@ export default function ProfilePage() {
       const res = await api.post("/profile/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      setProfile({ ...profile, profilePicture: res.data.url });
+      // Response for upload is { status, message, data: { url, user } }
+      setProfile({ ...profile, profilePicture: res.data.data.url });
       toast.success("Foto profil diunggah!");
     } catch (err) {
       toast.error("Gagal mengunggah foto.");
@@ -108,6 +109,7 @@ export default function ProfilePage() {
       setUploading(false);
     }
   };
+
 
   const handleLocateMe = () => {
     if (navigator.geolocation) {

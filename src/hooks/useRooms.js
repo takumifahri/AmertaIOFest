@@ -24,5 +24,15 @@ export const useRooms = () => {
     fetchRooms();
   }, []);
 
-  return { rooms, loading, error, refetch: fetchRooms };
+  const initiateChat = async (targetUserId) => {
+    try {
+      const res = await api.post('/chat/rooms/initiate', { targetUserId });
+      await fetchRooms();
+      return res.data.data;
+    } catch (err) {
+      throw err.response?.data?.message || 'Gagal memulai percakapan';
+    }
+  };
+
+  return { rooms, loading, error, refetch: fetchRooms, initiateChat };
 };

@@ -1,36 +1,95 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRooms } from "@/hooks/useRooms";
 import { useChat } from "@/hooks/useChat";
 import { 
   FaSearch, FaPaperPlane, FaImage, 
   FaCircle, FaRegSmile, FaEllipsisV,
   FaChevronLeft, FaInfoCircle, FaCommentDots,
-  FaCheck, FaCheckDouble
+  FaCheck, FaCheckDouble, FaPlus, FaTimes
 } from "react-icons/fa";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
 
 export default function ChatPage() {
-  const { rooms, loading: roomsLoading, refetch: refetchRooms } = useRooms();
+  const searchParams = useSearchParams();
+  const roomParam = searchParams.get("room");
+  const { rooms, loading: roomsLoading, refetch: refetchRooms, initiateChat } = useRooms();
   const [selectedRoomId, setSelectedRoomId] = useState(null);
+  
+  // Handle room parameter from URL
+  useEffect(() => {
+    if (roomParam) {
+      setSelectedRoomId(roomParam);
+    }
+  }, [roomParam]);
+
   const [currentUser, setCurrentUser] = useState(null);
+
   const [messageInput, setMessageInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isNewChatModalOpen, setIsNewChatModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
 
   // Fetch current user on mount
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await api.get("/profile");
-        setCurrentUser(res.data);
+        setCurrentUser(res.data.data);
       } catch (err) {
         console.error("Failed to fetch user", err);
       }
     };
+
     fetchUser();
   }, []);
+
+  const [roomSearchQuery, setRoomSearchQuery] = useState("");
+
+  const filteredRooms = rooms.filter(room => {
+    const otherUser = room.users.find(u => u.id !== currentUser?.id) || room.users[0];
+    return otherUser?.name?.toLowerCase().includes(roomSearchQuery.toLowerCase());
+  });
+
+  // Search users for new chat
+  useEffect(() => {
+    const searchUsers = async () => {
+      if (searchQuery.length < 2) {
+        setSearchResults([]);
+        return;
+      }
+      setIsSearching(true);
+      try {
+        const res = await api.get(`/profile/search?q=${searchQuery}`);
+        setSearchResults(res.data.data || []);
+      } catch (err) {
+        console.error("Search failed", err);
+      } finally {
+        setIsSearching(false);
+      }
+    };
+
+    const timer = setTimeout(searchUsers, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleInitiateChat = async (userId) => {
+    try {
+      const room = await initiateChat(userId);
+      setSelectedRoomId(room.id);
+      setIsNewChatModalOpen(false);
+      setSearchQuery("");
+      toast.success("Percakapan dimulai!");
+    } catch (err) {
+      toast.error(typeof err === 'string' ? err : "Gagal memulai percakapan");
+    }
+  };
 
   // Auto-select first room if none selected
   useEffect(() => {
@@ -97,12 +156,23 @@ export default function ChatPage() {
       >
         <div className={`p-6 border-b border-gray-100 dark:border-white/5 flex items-center transition-all ${isSidebarOpen ? 'justify-between' : 'justify-center px-2'}`}>
           {isSidebarOpen && <h1 className="text-2xl font-black text-foreground tracking-tighter animate-in fade-in slide-in-from-left-2 uppercase italic">Pesan</h1>}
-          <button 
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className={`p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors ${!isSidebarOpen ? 'text-primary' : 'text-gray-400'}`}
-          >
-            {isSidebarOpen ? <FaChevronLeft /> : <FaCommentDots size={20} />}
-          </button>
+          <div className="flex items-center gap-2">
+            {isSidebarOpen && (
+              <button 
+                onClick={() => setIsNewChatModalOpen(true)}
+                className="p-2.5 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-xl transition-all shadow-sm group"
+                title="Mulai Chat Baru"
+              >
+                <FaPlus size={14} className="group-hover:rotate-90 transition-transform duration-300" />
+              </button>
+            )}
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className={`p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-xl transition-colors ${!isSidebarOpen ? 'text-primary' : 'text-gray-400'}`}
+            >
+              {isSidebarOpen ? <FaChevronLeft /> : <FaCommentDots size={20} />}
+            </button>
+          </div>
         </div>
         
         {isSidebarOpen && (
@@ -112,6 +182,8 @@ export default function ChatPage() {
               <input 
                 type="text" 
                 placeholder="Cari percakapan..." 
+                value={roomSearchQuery}
+                onChange={(e) => setRoomSearchQuery(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-surface border border-gray-100 dark:border-white/5 rounded-2xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all"
               />
             </div>
@@ -119,14 +191,16 @@ export default function ChatPage() {
         )}
         
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {rooms.length === 0 ? (
+          {filteredRooms.length === 0 ? (
             isSidebarOpen && (
               <div className="text-center p-8 opacity-50">
-                <p className="text-gray-500 text-sm italic">Belum ada percakapan.</p>
+                <p className="text-gray-500 text-sm italic">
+                  {roomSearchQuery ? "Tidak ada hasil pencarian." : "Belum ada percakapan."}
+                </p>
               </div>
             )
           ) : (
-            rooms.map(room => {
+            filteredRooms.map(room => {
               const otherUser = room.users.find(u => u.id !== currentUser?.id) || room.users[0];
               const isActive = selectedRoomId === room.id;
               
@@ -313,6 +387,89 @@ export default function ChatPage() {
           </div>
         )}
       </div>
+      
+      {/* New Chat Modal */}
+      {isNewChatModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in duration-300"
+            onClick={() => setIsNewChatModalOpen(false)}
+          />
+          <div className="relative w-full max-w-md bg-background border border-gray-100 dark:border-white/10 rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+            <div className="p-6 border-b border-gray-100 dark:border-white/5 flex justify-between items-center bg-surface/50">
+              <h2 className="text-xl font-black text-foreground tracking-tight uppercase italic">Mulai Chat Baru</h2>
+              <button 
+                onClick={() => setIsNewChatModalOpen(false)}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors text-gray-400 hover:text-foreground"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="relative mb-6">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                <input 
+                  type="text" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Cari nama atau email..." 
+                  className="w-full pl-11 pr-4 py-3 bg-surface border border-gray-100 dark:border-white/10 rounded-2xl text-sm focus:ring-4 focus:ring-primary/10 focus:outline-none transition-all placeholder:text-gray-400 font-medium"
+                  autoFocus
+                />
+              </div>
+              
+              <div className="max-h-[350px] overflow-y-auto pr-2 space-y-2 no-scrollbar">
+                {isSearching ? (
+                  <div className="py-12 flex flex-col items-center justify-center gap-4">
+                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                    <p className="text-xs font-black uppercase tracking-widest text-gray-400">Mencari User...</p>
+                  </div>
+                ) : searchResults.length > 0 ? (
+                  searchResults.map(user => (
+                    <button
+                      key={user.id}
+                      onClick={() => handleInitiateChat(user.id)}
+                      className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-primary/5 border border-transparent hover:border-primary/10 transition-all group text-left"
+                    >
+                      <div className="w-11 h-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-black group-hover:scale-110 transition-transform">
+                        {user.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex justify-between items-center mb-0.5">
+                          <p className="font-bold text-foreground truncate">{user.name}</p>
+                          <span className="text-[8px] font-black uppercase tracking-[1px] px-2 py-0.5 bg-gray-100 dark:bg-white/5 rounded-md text-gray-500">{user.role}</span>
+                        </div>
+                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-primary/0 group-hover:bg-primary/10 flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 transition-all">
+                        <FaPaperPlane size={12} />
+                      </div>
+                    </button>
+                  ))
+                ) : searchQuery.length >= 2 ? (
+                  <div className="py-12 text-center">
+                    <div className="w-16 h-16 bg-gray-50 dark:bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                      <FaSearch className="text-gray-200 dark:text-white/10" size={24} />
+                    </div>
+                    <p className="text-sm font-bold text-gray-400">User tidak ditemukan.</p>
+                  </div>
+                ) : (
+                  <div className="py-12 text-center opacity-30">
+                    <p className="text-xs font-black uppercase tracking-[3px]">Cari Teman Berbagi</p>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="p-6 bg-surface/50 border-t border-gray-100 dark:border-white/5">
+              <p className="text-[10px] text-center text-gray-400 font-medium">
+                Tip: Cari pengguna berdasarkan nama lengkap atau alamat email mereka.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  );
+  );  
 }

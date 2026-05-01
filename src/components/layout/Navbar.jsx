@@ -22,11 +22,12 @@ export default function Navbar() {
     const fetchUser = async () => {
       try {
         const res = await api.get("/auth/me");
-        setUser(res.data.user);
+        setUser(res.data.data.user);
       } catch (err) {
         setUser(null);
       }
     };
+
     fetchUser();
   }, []);
 

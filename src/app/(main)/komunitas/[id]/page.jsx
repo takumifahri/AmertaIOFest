@@ -6,10 +6,12 @@ import api from '@/lib/axios';
 import toast from 'react-hot-toast';
 import { 
   FaChevronLeft, FaUserCircle, FaLeaf, FaComment, 
-  FaShare, FaMapMarkerAlt, FaPaperPlane, FaChevronRight
+  FaShare, FaMapMarkerAlt, FaPaperPlane, FaChevronRight,
+  FaEllipsisV, FaBan
 } from 'react-icons/fa';
 import { getImageUrl } from '@/lib/imageUrl';
 import { formatRelativeDate } from '@/lib/dateUtils';
+import { useRooms } from '@/hooks/useRooms';
 
 
 
@@ -21,6 +23,10 @@ export default function PostDetailPage() {
   const [comment, setComment] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [showAuthorMenu, setShowAuthorMenu] = useState(false);
+  const [isChatLoading, setIsChatLoading] = useState(false);
+  const { initiateChat } = useRooms();
+
 
   useEffect(() => {
     fetchPost();
@@ -47,6 +53,34 @@ export default function PostDetailPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleChatWithAuthor = async () => {
+    if (!currentUser) {
+      toast.error('Silakan login terlebih dahulu');
+      return;
+    }
+    if (currentUser.id === post.author.id) {
+      toast.error('Anda tidak bisa chat dengan diri sendiri');
+      return;
+    }
+
+    setIsChatLoading(true);
+    try {
+      const room = await initiateChat(post.author.id);
+      router.push(`/dashboard/chat?room=${room.id}`);
+      toast.success('Melanjutkan ke percakapan...');
+    } catch (err) {
+      toast.error(typeof err === 'string' ? err : 'Gagal memulai percakapan');
+    } finally {
+      setIsChatLoading(false);
+      setShowAuthorMenu(false);
+    }
+  };
+
+  const handleBlockAuthor = () => {
+    toast.success(`${post.author.name} telah diblokir (Simulasi)`);
+    setShowAuthorMenu(false);
   };
 
   const handleAddComment = async (e) => {
@@ -166,16 +200,53 @@ export default function PostDetailPage() {
             
             {/* Header */}
             <div className="p-6 border-b border-black/5 dark:border-white/5 flex items-center justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 relative">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
                   <FaUserCircle size={24} className="opacity-40" />
                 </div>
-                <div>
-                  <h4 className="font-bold text-amerta-dark dark:text-white text-sm leading-none mb-1">{post.author.name}</h4>
-                  <p className="text-[9px] text-gray-500 font-bold uppercase tracking-tight">
+                <div 
+                  className="cursor-pointer group/author"
+                  onClick={() => setShowAuthorMenu(!showAuthorMenu)}
+                >
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-bold text-amerta-dark dark:text-white text-sm leading-none group-hover:text-primary transition-colors">{post.author.name}</h4>
+                    <FaEllipsisV size={10} className="text-gray-400 opacity-0 group-hover:opacity-100 transition-all" />
+                  </div>
+                  <p className="text-[9px] text-gray-500 font-bold uppercase tracking-tight mt-1">
                     {formatRelativeDate(post.createdAt)}
                   </p>
                 </div>
+
+                {/* Author Dropdown Menu */}
+                {showAuthorMenu && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setShowAuthorMenu(false)} 
+                    />
+                    <div className="absolute top-12 left-10 w-48 bg-white dark:bg-[#1a1a1a] border border-black/5 dark:border-white/10 rounded-2xl shadow-2xl z-20 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                      <button 
+                        onClick={handleChatWithAuthor}
+                        disabled={isChatLoading}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-xs font-bold text-amerta-dark dark:text-white hover:bg-primary/10 hover:text-primary transition-all disabled:opacity-50"
+                      >
+                        {isChatLoading ? (
+                          <div className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <FaComment size={12} />
+                        )}
+                        <span>Chat dengan Author</span>
+                      </button>
+                      <button 
+                        onClick={handleBlockAuthor}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-left text-xs font-bold text-red-500 hover:bg-red-500/10 transition-all border-t border-black/5 dark:border-white/5"
+                      >
+                        <FaBan size={12} />
+                        <span>Blokir Pengguna</span>
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
               <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border ${getTypeColor(post.type)}`}>
                 {post.type}

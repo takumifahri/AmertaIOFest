@@ -13,13 +13,14 @@ export default function PointsPage() {
     const fetchPoints = async () => {
       try {
         const res = await api.get("/profile");
-        setPoints(res.data.points || 0);
+        setPoints(res.data.data.points || 0);
       } catch (err) {
         console.error("Failed to fetch points", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchPoints();
   }, []);
 
