@@ -22,6 +22,8 @@ function CheckoutComponent() {
   const [step, setStep] = useState(1); // 1: Shipping, 2: Payment
   const [order, setOrder] = useState(null);
   const [paymentProof, setPaymentProof] = useState(null);
+  const [vouchers, setVouchers] = useState([]);
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
 
   const [formData, setFormData] = useState({
     recipientName: "",
@@ -35,9 +37,10 @@ function CheckoutComponent() {
 
   const fetchData = async () => {
     try {
-      const [userRes, cartRes] = await Promise.all([
+      const [userRes, cartRes, vouchersRes] = await Promise.all([
         api.get("/auth/me"),
-        api.get("/marketplace/cart")
+        api.get("/marketplace/cart"),
+        api.get("/rewards/my-rewards")
       ]);
       
       const userData = userRes.data.data.user;
@@ -50,6 +53,10 @@ function CheckoutComponent() {
       }
       
       setCart(cartData);
+
+      // Filter only unused vouchers
+      const availableVouchers = vouchersRes.data.data.filter(v => !v.isUsed && v.reward.type === "VOUCHERS");
+      setVouchers(availableVouchers);
 
       // Prefill form
       setFormData({
@@ -80,7 +87,8 @@ function CheckoutComponent() {
     try {
       const checkoutData = {
         ...formData,
-        cartItemIds: selectedIds
+        cartItemIds: selectedIds,
+        userRewardId: selectedVoucher?.id
       };
       const res = await api.post("/marketplace/checkout", checkoutData);
       setOrder(res.data.data);
@@ -339,8 +347,41 @@ function CheckoutComponent() {
                         </span>
                     </div>
                     <div className="flex justify-between items-center">
+                        <span className="text-xs font-black uppercase tracking-widest text-gray-400">Total Belanja</span>
+                        <span className="font-bold">Rp {cartTotal.toLocaleString()}</span>
+                    </div>
+
+                    {vouchers.length > 0 && (
+                      <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-white/5">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Gunakan Voucher</label>
+                        <select 
+                          className="w-full bg-background border border-gray-100 dark:border-white/10 rounded-xl py-3 px-4 text-xs font-bold focus:border-primary transition-all appearance-none cursor-pointer"
+                          value={selectedVoucher?.id || ""}
+                          onChange={(e) => {
+                            const v = vouchers.find(v => v.id === e.target.value);
+                            setSelectedVoucher(v || null);
+                          }}
+                        >
+                          <option value="">Pilih Voucher Diskon</option>
+                          {vouchers.map(v => (
+                            <option key={v.id} value={v.id}>
+                              {v.reward.title} (Rp {v.reward.value?.toLocaleString()})
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {selectedVoucher && (
+                      <div className="flex justify-between items-center text-sm text-red-500">
+                        <span className="font-medium italic">Diskon Voucher</span>
+                        <span className="font-black">- Rp {selectedVoucher.reward.value?.toLocaleString()}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between items-center">
                         <span className="text-xs font-black uppercase tracking-widest text-gray-400">Total Tagihan</span>
-                        <span className="text-2xl font-black tracking-tighter">Rp {cartTotal.toLocaleString()}</span>
+                        <span className="text-2xl font-black tracking-tighter">Rp {Math.max(0, cartTotal - (selectedVoucher?.reward?.value || 0)).toLocaleString()}</span>
                     </div>
                 </div>
 

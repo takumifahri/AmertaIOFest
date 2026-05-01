@@ -29,29 +29,36 @@ export default function PostDetailPage() {
 
 
   useEffect(() => {
-    fetchPost();
-    fetchUser();
+    const init = async () => {
+      setLoading(true);
+      const user = await fetchUser();
+      await fetchPost(user);
+      setLoading(false);
+    };
+    init();
   }, [id]);
 
   const fetchUser = async () => {
     try {
       const res = await api.get('/auth/me');
-      setCurrentUser(res.data.data.user);
+      const user = res.data.data.user;
+      setCurrentUser(user);
+      return user;
     } catch (err) {
       setCurrentUser(null);
+      return null;
     }
   };
 
-  const fetchPost = async () => {
-    setLoading(true);
+  const fetchPost = async (user) => {
     try {
       const response = await api.get(`/community/${id}`);
-      setPost(response.data);
+      const postData = response.data;
+      const liked = postData.likes?.some(l => l.userId === user?.id) || false;
+      setPost({ ...postData, isLiked: liked });
     } catch (error) {
       toast.error('Gagal mengambil detail postingan');
       router.push('/komunitas');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -101,6 +108,42 @@ export default function PostDetailPage() {
       toast.success('Komentar ditambahkan');
     } catch (error) {
       toast.error('Gagal menambahkan komentar');
+    }
+  };
+
+  const handleLike = async () => {
+    if (!currentUser) {
+      toast.error('Silakan login untuk memberikan Leaf');
+      return;
+    }
+
+    const isLiked = post.isLiked;
+    const likeCount = post._count?.likes || 0;
+
+    // Optimistic Update
+    setPost({
+      ...post,
+      isLiked: !isLiked,
+      _count: {
+        ...post._count,
+        likes: isLiked ? likeCount - 1 : likeCount + 1
+      }
+    });
+
+    try {
+      await api.post(`/community/${id}/like`);
+      toast.success(isLiked ? 'Leaf dilepas' : 'Leaf diberikan!');
+    } catch (err) {
+      // Revert on error
+      setPost({
+        ...post,
+        isLiked: isLiked,
+        _count: {
+          ...post._count,
+          likes: likeCount
+        }
+      });
+      toast.error('Gagal memberikan Leaf');
     }
   };
 
@@ -317,7 +360,14 @@ export default function PostDetailPage() {
             {/* Interaction Footer */}
             <div className="p-6 border-t border-black/5 dark:border-white/5 bg-white dark:bg-[#0c0c0c]">
               <div className="flex items-center gap-6 mb-6">
-                <div className="flex items-center gap-2 text-primary font-black text-[10px] uppercase tracking-wider">
+                <button 
+                  onClick={handleLike}
+                  className={`flex items-center gap-2 transition-all duration-300 font-black text-[10px] uppercase tracking-wider ${post.isLiked ? 'text-primary scale-110' : 'text-gray-400 hover:text-primary'}`}
+                >
+                  <FaLeaf size={14} className={`${post.isLiked ? 'fill-primary' : ''}`} />
+                  <span>{post._count?.likes || 0} Leaf</span>
+                </button>
+                <div className="flex items-center gap-2 text-gray-400 font-black text-[10px] uppercase tracking-wider">
                   <FaComment size={14} />
                   <span>{post.comments?.length || 0} Komentar</span>
                 </div>

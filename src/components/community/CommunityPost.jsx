@@ -18,6 +18,12 @@ export default function CommunityPost({ post, currentUser }) {
   const [showAuthorMenu, setShowAuthorMenu] = useState(false);
   const [isChatLoading, setIsChatLoading] = useState(false);
   const { initiateChat } = useRooms();
+  
+  const [isLiked, setIsLiked] = useState(
+    post.likes?.some(like => like.userId === currentUser?.id) || false
+  );
+  const [likeCount, setLikeCount] = useState(post.likes?.length || 0);
+  const [isLiking, setIsLiking] = useState(false);
 
 
   const handleChatWithAuthor = async (e) => {
@@ -66,6 +72,36 @@ export default function CommunityPost({ post, currentUser }) {
       toast.success('Komentar ditambahkan');
     } catch (error) {
       toast.error('Gagal menambahkan komentar');
+    }
+  };
+
+  const handleToggleLike = async (e) => {
+    e.stopPropagation();
+    if (!currentUser) {
+      toast.error('Silakan login untuk memberikan Leaf');
+      return;
+    }
+
+    if (isLiking) return;
+    
+    // Optimistic Update
+    const previousIsLiked = isLiked;
+    const previousLikeCount = likeCount;
+    setIsLiked(!isLiked);
+    setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
+    setIsLiking(true);
+
+    try {
+      const res = await api.post(`/community/${post.id}/like`);
+      // Update state based on actual response if needed
+      setIsLiked(res.data.liked);
+    } catch (error) {
+      // Revert on error
+      setIsLiked(previousIsLiked);
+      setLikeCount(previousLikeCount);
+      toast.error('Gagal memberikan Leaf');
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -199,13 +235,20 @@ export default function CommunityPost({ post, currentUser }) {
 
         <div className="flex items-center gap-6 pt-6 border-t border-white/5">
           <button 
+            onClick={handleToggleLike}
+            className={`flex items-center gap-2.5 transition-all text-sm font-bold ${isLiked ? 'text-primary' : 'text-gray-400 hover:text-white'}`}
+          >
+            <FaLeaf className={`text-lg transition-transform duration-300 ${isLiked ? 'scale-125' : 'group-hover/leaf:rotate-12'}`} />
+            <span>{likeCount} Leaf</span>
+          </button>
+          <button 
             onClick={(e) => {
               e.stopPropagation();
               setShowComments(!showComments);
             }}
             className="flex items-center gap-2.5 text-gray-400 hover:text-white transition-all text-sm font-bold"
           >
-            <FaComment className={`text-lg ${showComments ? 'text-amerta-green' : ''}`} />
+            <FaComment className={`text-lg ${showComments ? 'text-primary' : ''}`} />
             <span>{comments.length} Komentar</span>
           </button>
           <button 

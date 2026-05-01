@@ -128,7 +128,7 @@ export default function CommunityPage() {
               ))}
             </div>
           ) : (
-            <div className="bg-white dark:bg-white/5 rounded-[40px] p-20 text-center border-2 border-dashed border-gray-100 dark:border-white/5">
+            <div className="py-32 text-center">
               <div className="w-24 h-24 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 text-gray-200 dark:text-white/10">
                 <FaLeaf size={40} />
               </div>

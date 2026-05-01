@@ -18,7 +18,7 @@ export default function MyOrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const res = await api.get("/marketplace/orders/me");
+      const res = await api.get("/marketplace/my-orders");
       setOrders(res.data.data);
     } catch (err) {
       console.error("Failed to fetch orders", err);

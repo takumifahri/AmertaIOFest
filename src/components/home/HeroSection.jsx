@@ -1,10 +1,29 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaArrowRight, FaLeaf, FaRecycle, FaMapPin, FaStar } from "react-icons/fa";
 import Image from "next/image";
+import api from "@/lib/axios";
 
 export default function HeroSection() {
+  const [stats, setStats] = useState({
+    users: 0,
+    saved: 0,
+    partners: 0
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await api.get("/public/stats");
+        setStats(res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch platform stats", err);
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-background pt-24 pb-40 transition-colors duration-500">
       {/* Dynamic Background Elements */}
@@ -49,17 +68,23 @@ export default function HeroSection() {
             {/* Social Proof / Stats */}
             <div className="flex gap-12 items-center pt-10 border-t border-gray-200 dark:border-white/5">
               <div>
-                <p className="text-4xl font-black text-foreground tracking-tighter">5K+</p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">
+                  {stats.users > 1000 ? `${(stats.users / 1000).toFixed(1)}K+` : stats.users}
+                </p>
                 <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Users</p>
               </div>
               <div className="w-px h-10 bg-gray-200 dark:bg-white/10" />
               <div>
-                <p className="text-4xl font-black text-foreground tracking-tighter">12<span className="text-xl">t</span></p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">
+                  {stats.saved}
+                </p>
                 <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Saved</p>
               </div>
               <div className="w-px h-10 bg-gray-200 dark:bg-white/10" />
               <div>
-                <p className="text-4xl font-black text-foreground tracking-tighter">40+</p>
+                <p className="text-4xl font-black text-foreground tracking-tighter">
+                  {stats.partners}
+                </p>
                 <p className="text-[10px] text-gray-400 uppercase tracking-[2px] font-bold mt-1">Partners</p>
               </div>
             </div>

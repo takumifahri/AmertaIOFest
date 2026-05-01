@@ -256,7 +256,7 @@ export default function CommunityPage() {
                             </div>
                         ))
                     ) : (
-                        <div className="col-span-full bg-white dark:bg-white/5 rounded-[56px] p-24 text-center border-2 border-dashed border-gray-100 dark:border-white/10">
+                        <div className="col-span-full py-32 text-center">
                             <div className="w-32 h-32 bg-primary/5 rounded-[40px] flex items-center justify-center mx-auto mb-10 text-primary/20">
                                 <FaLeaf size={64} />
                             </div>

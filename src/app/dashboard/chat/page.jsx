@@ -254,35 +254,35 @@ function ChatComponent() {
         {selectedRoomId ? (
           <>
             {/* Chat Header */}
-            <div className="px-8 py-5 bg-background border-b border-gray-100 dark:border-white/5 flex justify-between items-center shadow-sm z-10">
-              <div className="flex items-center gap-4 min-w-0">
+            <div className="px-4 md:px-8 py-3 md:py-5 bg-background border-b border-gray-100 dark:border-white/5 flex justify-between items-center shadow-sm z-10">
+              <div className="flex items-center gap-3 md:gap-4 min-w-0">
                 <button 
                   onClick={() => setIsSidebarOpen(true)}
-                  className="md:hidden p-2 mr-1 text-gray-500 hover:text-foreground bg-gray-50 dark:bg-white/5 rounded-xl transition-all"
+                  className="md:hidden p-2 text-gray-500 hover:text-foreground bg-gray-50 dark:bg-white/5 rounded-xl transition-all active:scale-95"
                 >
-                  <FaCommentDots size={20} />
+                  <FaChevronLeft size={18} />
                 </button>
-                <div className="w-11 h-11 rounded-2xl bg-primary text-white flex items-center justify-center font-black shrink-0 shadow-lg shadow-primary/20">
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl md:rounded-2xl bg-primary text-white flex items-center justify-center font-black shrink-0 shadow-lg shadow-primary/20">
                   {selectedRoom.users.find(u => u.id !== currentUser?.id)?.name?.charAt(0).toUpperCase() || "?"}
                 </div>
                 <div className="truncate">
-                  <h3 className="font-black text-foreground truncate tracking-tight">
+                  <h3 className="font-black text-sm md:text-base text-foreground truncate tracking-tight">
                     {selectedRoom.users.find(u => u.id !== currentUser?.id)?.name || "Grup Chat"}
                   </h3>
                   <div className="flex items-center gap-1.5">
-                    <FaCircle className={`${selectedRoom.users.find(u => u.id !== currentUser?.id)?.is_active ? 'text-green-500' : 'text-gray-300'} text-[7px] animate-pulse`} />
-                    <span className="text-[10px] text-gray-500 font-black uppercase tracking-widest">
+                    <FaCircle className={`${selectedRoom.users.find(u => u.id !== currentUser?.id)?.is_active ? 'text-green-500' : 'text-gray-300'} text-[6px] md:text-[7px] animate-pulse`} />
+                    <span className="text-[9px] md:text-[10px] text-gray-500 font-black uppercase tracking-widest">
                       {selectedRoom.users.find(u => u.id !== currentUser?.id)?.is_active ? 'Online' : 'Offline'}
                     </span>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <button className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
-                  <FaInfoCircle size={18} />
+              <div className="flex items-center gap-1 md:gap-4">
+                <button className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
+                  <FaInfoCircle size={16} />
                 </button>
-                <button className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
-                  <FaEllipsisV size={18} />
+                <button className="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-foreground hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
+                  <FaEllipsisV size={16} />
                 </button>
               </div>
             </div>
@@ -290,14 +290,14 @@ function ChatComponent() {
             {/* Messages Area */}
             <div 
               ref={scrollRef}
-              className="flex-1 overflow-y-auto p-8 space-y-6 scroll-smooth"
+              className="flex-1 overflow-y-auto p-4 md:p-8 space-y-4 md:space-y-6 scroll-smooth"
             >
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center opacity-30 space-y-6">
                   <div className="p-8 bg-surface rounded-[40px] shadow-inner">
                     <FaCommentDots size={64} className="text-primary" />
                   </div>
-                  <p className="text-sm font-black uppercase tracking-[4px]">Say Hello!</p>
+                  <p className="text-xs font-black uppercase tracking-[4px]">Say Hello!</p>
                 </div>
               ) : (
                 messages.map((msg, i) => {
@@ -307,24 +307,24 @@ function ChatComponent() {
                       key={i} 
                       className={`flex ${isMe ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}
                     >
-                      <div className={`max-w-[75%] md:max-w-[60%] px-5 py-4 rounded-[28px] shadow-sm ${
+                      <div className={`max-w-[85%] md:max-w-[60%] px-4 md:px-5 py-3 md:py-4 rounded-[24px] md:rounded-[28px] shadow-sm ${
                         isMe 
                           ? 'bg-primary text-white rounded-tr-none' 
                           : 'bg-surface dark:bg-white/5 text-foreground rounded-tl-none border border-gray-100 dark:border-white/5'
                       }`}>
                         {msg.image && (
-                          <div className="rounded-2xl overflow-hidden mb-3">
+                          <div className="rounded-xl overflow-hidden mb-3">
                             <img src={msg.image} alt="attachment" className="max-w-full hover:scale-105 transition-transform duration-500" />
                           </div>
                         )}
-                        <p className="text-[15px] leading-relaxed font-medium">{msg.message}</p>
-                        <div className="flex items-center justify-end gap-1.5 mt-2">
-                          <p className={`text-[10px] font-bold ${isMe ? 'text-white/60' : 'text-gray-400'}`}>
+                        <p className="text-sm md:text-[15px] leading-relaxed font-medium">{msg.message}</p>
+                        <div className="flex items-center justify-end gap-1.5 mt-1.5 md:mt-2">
+                          <p className={`text-[9px] md:text-[10px] font-bold ${isMe ? 'text-white/60' : 'text-gray-400'}`}>
                             {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </p>
                           {isMe && (
                             <span className={msg.isRead ? 'text-secondary' : 'text-white/40'}>
-                              {msg.isRead ? <FaCheckDouble size={10} /> : <FaCheck size={10} />}
+                              {msg.isRead ? <FaCheckDouble size={9} /> : <FaCheck size={9} />}
                             </span>
                           )}
                         </div>
@@ -335,11 +335,11 @@ function ChatComponent() {
               )}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-surface dark:bg-white/5 border border-gray-100 dark:border-white/5 px-5 py-3 rounded-[20px] rounded-tl-none">
-                    <div className="flex gap-1.5">
-                      <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
-                      <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                      <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="bg-surface dark:bg-white/5 border border-gray-100 dark:border-white/5 px-4 py-2.5 rounded-[18px] rounded-tl-none">
+                    <div className="flex gap-1">
+                      <div className="w-1 h-1 bg-primary/40 rounded-full animate-bounce" />
+                      <div className="w-1 h-1 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                      <div className="w-1 h-1 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
                     </div>
                   </div>
                 </div>
@@ -347,28 +347,28 @@ function ChatComponent() {
             </div>
 
             {/* Message Input */}
-            <div className="p-8 bg-background border-t border-gray-100 dark:border-white/5">
+            <div className="p-4 md:p-8 bg-background border-t border-gray-100 dark:border-white/5">
               <form 
                 onSubmit={handleSendMessage}
-                className="flex items-center gap-4 bg-surface dark:bg-white/5 border border-gray-100 dark:border-white/5 p-2 pl-5 rounded-[24px] shadow-sm focus-within:ring-4 focus-within:ring-primary/10 transition-all"
+                className="flex items-center gap-2 md:gap-4 bg-surface dark:bg-white/5 border border-gray-100 dark:border-white/5 p-1.5 md:p-2 pl-3 md:pl-5 rounded-[20px] md:rounded-[24px] shadow-sm focus-within:ring-4 focus-within:ring-primary/10 transition-all"
               >
-                <button type="button" className="text-gray-400 hover:text-foreground p-2 transition-all hover:scale-110">
-                  <FaRegSmile size={20} />
+                <button type="button" className="text-gray-400 hover:text-foreground p-1.5 transition-all hover:scale-110">
+                  <FaRegSmile size={18} />
                 </button>
-                <button type="button" className="text-gray-400 hover:text-foreground p-2 transition-all hover:scale-110">
-                  <FaImage size={20} />
+                <button type="button" className="hidden sm:block text-gray-400 hover:text-foreground p-1.5 transition-all hover:scale-110">
+                  <FaImage size={18} />
                 </button>
                 <input 
                   type="text" 
                   value={messageInput}
                   onChange={handleInputChange}
                   placeholder="Ketik pesan..." 
-                  className="flex-1 bg-transparent border-none focus:ring-0 text-[15px] text-foreground font-medium py-3 placeholder:text-gray-400"
+                  className="flex-1 bg-transparent border-none focus:ring-0 text-sm md:text-[15px] text-foreground font-medium py-2.5 md:py-3 placeholder:text-gray-400"
                 />
                 <button 
                   type="submit"
                   disabled={!messageInput.trim()}
-                  className="p-4 bg-primary text-white rounded-2xl shadow-lg shadow-primary/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 disabled:shadow-none"
+                  className="p-3 md:p-4 bg-primary text-white rounded-xl md:rounded-2xl shadow-lg shadow-primary/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 disabled:shadow-none"
                 >
                   <FaPaperPlane size={18} />
                 </button>

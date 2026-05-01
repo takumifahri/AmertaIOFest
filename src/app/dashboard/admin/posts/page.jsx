@@ -110,6 +110,10 @@ export default function AdminPostsPage() {
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5 text-gray-400">
+                      <FaLeaf size={12} />
+                      <span className="text-xs font-bold">{post._count?.likes || 0}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-gray-400">
                       <FaComment size={12} />
                       <span className="text-xs font-bold">{post._count?.comments || 0}</span>
                     </div>
@@ -120,7 +124,7 @@ export default function AdminPostsPage() {
                   
                   <div className="flex items-center gap-2">
                     <a 
-                      href={`/komunitas/post/${post.id}`} 
+                      href={`/komunitas/${post.id}`} 
                       target="_blank"
                       className="p-2.5 bg-gray-100 dark:bg-white/5 text-gray-500 hover:text-primary rounded-xl transition-all"
                       title="Lihat Detail"
